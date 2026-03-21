@@ -1,0 +1,278 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Shield, TrendingUp, HeartPulse, Check } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SceneWrapper from "@/components/SceneWrapper";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const sections = [
+  {
+    id: "hero",
+    label: "Home",
+  },
+  {
+    id: "lic",
+    label: "LIC Insurance",
+    icon: <Shield className="w-5 h-5" />,
+    title: "LIC Insurance",
+    subtitle: "Protection & Security",
+    description:
+      "Secure your family's financial future with India's most trusted life insurance provider.",
+    features: [
+      "Endowment & Money-back Policies",
+      "Term Life Insurance",
+      "Retirement & Pension Plans",
+      "Child Education Plans",
+      "Policy Servicing & Claims",
+    ],
+  },
+  {
+    id: "mutual-funds",
+    label: "Mutual Funds",
+    icon: <TrendingUp className="w-5 h-5" />,
+    title: "Mutual Funds & Wealth",
+    subtitle: "Wealth Creation",
+    description:
+      "Grow your wealth steadily with expertly managed investment portfolios.",
+    features: [
+      "SIP (Systematic Investment Plan)",
+      "SWP (Systematic Withdrawal Plan)",
+      "Portfolio Management (PMS)",
+      "Alternative Investment Funds (AIF)",
+      "NCDs / Company Fixed Deposits",
+    ],
+    note: "Note: FDs are non-breakable",
+  },
+  {
+    id: "health",
+    label: "Health Insurance",
+    icon: <HeartPulse className="w-5 h-5" />,
+    title: "Mediclaim / Health",
+    subtitle: "Health Protection",
+    description:
+      "Comprehensive health coverage through our premium hospital network partners.",
+    partners: [
+      "Care Health",
+      "Star Health",
+      "ICICI Lombard",
+      "New India Assurance",
+    ],
+  },
+];
+
+export default function ScrollSections() {
+  const [activeSection, setActiveSection] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const cards = gsap.utils.toArray(".service-card-wrapper") as HTMLElement[];
+    if (cards.length === 0) return;
+
+    // Set initial states: first card visible, rest off-screen right
+    gsap.set(cards.slice(1), { xPercent: 100, autoAlpha: 0 });
+    gsap.set(cards[0], { xPercent: 0, autoAlpha: 1 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "+=200%", // Two transitions (100vh each) to equal 300vh total height
+        pin: true,
+        scrub: 1, // Smooth scrolling
+        onUpdate: (self) => {
+          if (self.progress < 0.25) setActiveSection(1);
+          else if (self.progress < 0.75) setActiveSection(2);
+          else setActiveSection(3);
+        },
+      },
+    });
+
+    // Card 1 slides in over Card 0
+    if (cards[1]) {
+      tl.to(cards[1], { xPercent: 0, autoAlpha: 1, duration: 1 });
+    }
+    // Card 2 slides in over Card 1
+    if (cards[2]) {
+      tl.to(cards[2], { xPercent: 0, autoAlpha: 1, duration: 1 });
+    }
+  }, { scope: containerRef });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // If we are in the top half of the screen, we're in Hero section
+      if (window.scrollY < window.innerHeight / 2) {
+        setActiveSection(0);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="relative w-full">
+      {/* 3D Particle Background - Sticky until we scroll past this container */}
+      <div className="sticky top-0 h-screen w-full pointer-events-none z-0 overflow-hidden">
+        <SceneWrapper />
+      </div>
+
+      <div className="-mt-[100vh] relative z-10 w-full">
+        {/* Glow blobs */}
+        <div className="blob-blue" style={{ top: "10%", right: "-5%" }} />
+        <div className="blob-dark" style={{ top: "40%", left: "-8%" }} />
+        <div className="blob-blue" style={{ top: "75%", right: "10%" }} />
+
+      {/* Side nav dots */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3">
+        {sections.map((s, i) => (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            className="group flex items-center gap-3"
+          >
+            <span
+              className={`text-xs font-medium transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 ${
+                activeSection === i ? "!opacity-70" : ""
+              } text-zinc-500`}
+            >
+              {s.label}
+            </span>
+            <span
+              className={`block rounded-full transition-all duration-300 ${
+                activeSection === i
+                  ? "w-3 h-3 bg-[#3B82F6] shadow-md shadow-[#3B82F6]/40 ring-2 ring-[#3B82F6]/20"
+                  : "w-2 h-2 glass-sm"
+              }`}
+            />
+          </a>
+        ))}
+      </div>
+
+      {/* --- HERO SECTION --- */}
+      <section
+        id="hero"
+        className="min-h-screen flex items-center justify-center px-6 relative"
+      >
+        <div className="text-center z-10 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-sm text-xs font-medium text-zinc-400 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] animate-pulse shadow-sm shadow-[#3B82F6]/50" />
+            Total Investment Solutions
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+            <span className="text-[#F4F4F5]">Securing Your</span>
+            <br />
+            <span className="gradient-text-accent">Future, Forever.</span>
+          </h1>
+
+          <p className="text-lg text-zinc-400 max-w-md mx-auto mb-10 leading-relaxed">
+            Comprehensive wealth protection and growth strategies tailored to
+            your lifelong goals.
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="#lic"
+              className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium rounded-full text-white overflow-hidden transition-all hover:scale-[1.02]"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] rounded-full" />
+              <span className="absolute inset-0 bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] blur-xl opacity-40 group-hover:opacity-60 transition-opacity rounded-full" />
+              <span className="relative font-semibold">Explore Our Services</span>
+            </a>
+            <a
+              href="#book"
+              className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium glass-cta text-zinc-300 transition-all hover:scale-[1.02] hover:text-white"
+            >
+              Book a Consultation
+            </a>
+          </div>
+
+          <p className="mt-16 text-xs text-zinc-600 tracking-widest uppercase">
+            Scroll to explore ↓
+          </p>
+        </div>
+      </section>
+
+      {/* --- SERVICE SECTIONS CONTAINER --- */}
+      <div ref={containerRef} className="h-screen w-full relative">
+        <div className="absolute inset-0 flex items-center px-6 overflow-hidden">
+          <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center h-full relative">
+            <div className="md:col-start-2 relative w-full h-[600px] flex items-center">
+              {sections.slice(1).map((section, idx) => (
+                <div
+                  key={section.id}
+                  className="service-card-wrapper absolute w-full"
+                  style={{ zIndex: 10 + idx }}
+                >
+                  <div 
+                    className="glass-card p-8 md:p-10 shadow-2xl" 
+                    style={{ marginTop: `${idx * 1.5}rem` }}
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <span className="w-10 h-10 glass-icon flex items-center justify-center text-[#60A5FA]">
+                        {section.icon}
+                      </span>
+                      <span className="text-xs font-medium tracking-wider uppercase text-zinc-500">
+                        {section.subtitle}
+                      </span>
+                    </div>
+
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#F4F4F5] mb-3">
+                      {section.title}
+                    </h2>
+                    <p className="text-zinc-400 leading-relaxed mb-8 text-sm">
+                      {section.description}
+                    </p>
+
+                    {section.features && (
+                      <ul className="space-y-3 mb-4">
+                        {section.features.map((f, i) => (
+                          <li
+                            key={i}
+                            className="flex items-center text-sm text-zinc-300 glass-feature"
+                          >
+                            <Check className="w-4 h-4 mr-3 shrink-0 text-[#3B82F6]" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {section.partners && (
+                      <div>
+                        <p className="text-xs font-medium tracking-wider uppercase text-zinc-500 mb-3">
+                          Premium Partners
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {section.partners.map((p, i) => (
+                            <span
+                              key={i}
+                              className="text-xs px-4 py-2 glass-sm text-zinc-300 font-medium"
+                            >
+                              {p}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {section.note && (
+                      <p className="mt-4 text-xs text-amber-400/80 flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-amber-400" />
+                        {section.note}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  );
+}
