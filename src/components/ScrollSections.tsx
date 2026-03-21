@@ -83,29 +83,37 @@ export default function ScrollSections() {
         end: "+=200%", // Two transitions (100vh each) to equal 300vh total height
         pin: true,
         scrub: 1, // Smooth scrolling
-        onUpdate: (self) => {
-          if (self.progress < 0.25) setActiveSection(1);
-          else if (self.progress < 0.75) setActiveSection(2);
-          else setActiveSection(3);
-        },
       },
     });
 
-    // Card 1 slides in over Card 0
+    // Card transitions
+    // Animate Card 0 out while Card 1 slides in
     if (cards[1]) {
-      tl.to(cards[1], { xPercent: 0, autoAlpha: 1, duration: 1 });
+      tl.to(cards[0], { xPercent: -20, autoAlpha: 0, duration: 1 }, 0);
+      tl.to(cards[1], { xPercent: 0, autoAlpha: 1, duration: 1 }, 0);
     }
-    // Card 2 slides in over Card 1
+    // Animate Card 1 out while Card 2 slides in
     if (cards[2]) {
-      tl.to(cards[2], { xPercent: 0, autoAlpha: 1, duration: 1 });
+      tl.to(cards[1], { xPercent: -20, autoAlpha: 0, duration: 1 }, 1);
+      tl.to(cards[2], { xPercent: 0, autoAlpha: 1, duration: 1 }, 1);
     }
   }, { scope: containerRef });
 
   useEffect(() => {
     const handleScroll = () => {
-      // If we are in the top half of the screen, we're in Hero section
-      if (window.scrollY < window.innerHeight / 2) {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      
+      // Compute completely deterministic active section boundaries
+      // using exact mathematical midpoints to prevent GSAP trigger edge cases
+      if (scrollY < vh * 0.5) {
         setActiveSection(0);
+      } else if (scrollY < vh * 1.5) {
+        setActiveSection(1);
+      } else if (scrollY < vh * 2.5) {
+        setActiveSection(2);
+      } else {
+        setActiveSection(3);
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -120,10 +128,17 @@ export default function ScrollSections() {
       </div>
 
       <div className="-mt-[100vh] relative z-10 w-full">
-        {/* Glow blobs */}
-        <div className="blob-blue" style={{ top: "10%", right: "-5%" }} />
-        <div className="blob-dark" style={{ top: "40%", left: "-8%" }} />
-        <div className="blob-blue" style={{ top: "75%", right: "10%" }} />
+        {/* Glow blobs cleanly isolated to prevent x-overflow on mobile */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-none w-full">
+          <div className="blob-blue" style={{ top: "10%", right: "-5%" }} />
+          <div className="blob-dark" style={{ top: "40%", left: "-8%" }} />
+          <div className="blob-blue" style={{ top: "75%", right: "10%" }} />
+        </div>
+
+        {/* Absolute anchor targets modeled securely in inline styles to bypass tailwind JIT caching */}
+        <div id="lic" className="absolute w-full h-10 -mt-10" style={{ top: "100vh" }} />
+        <div id="mutual-funds" className="absolute w-full h-10 -mt-10" style={{ top: "200vh" }} />
+        <div id="health" className="absolute w-full h-10 -mt-10" style={{ top: "300vh" }} />
 
       {/* Side nav dots */}
       <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3">
@@ -131,6 +146,14 @@ export default function ScrollSections() {
           <a
             key={s.id}
             href={`#${s.id}`}
+            onClick={(e) => {
+              // Smooth scroll natively for side-nav
+              e.preventDefault();
+              window.scrollTo({
+                top: i * window.innerHeight,
+                behavior: "smooth",
+              });
+            }}
             className="group flex items-center gap-3"
           >
             <span
@@ -162,7 +185,7 @@ export default function ScrollSections() {
             Total Investment Solutions
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
             <span className="text-[#F4F4F5]">Securing Your</span>
             <br />
             <span className="gradient-text-accent">Future, Forever.</span>
@@ -199,18 +222,15 @@ export default function ScrollSections() {
       {/* --- SERVICE SECTIONS CONTAINER --- */}
       <div ref={containerRef} className="h-screen w-full relative">
         <div className="absolute inset-0 flex items-center px-6 overflow-hidden">
-          <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center h-full relative">
-            <div className="md:col-start-2 relative w-full h-[600px] flex items-center">
+          <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center h-full relative">
+            <div className="md:col-start-2 relative w-full min-h-[450px] md:h-[600px] flex items-center pt-32 md:pt-0">
               {sections.slice(1).map((section, idx) => (
                 <div
                   key={section.id}
                   className="service-card-wrapper absolute w-full"
                   style={{ zIndex: 10 + idx }}
                 >
-                  <div 
-                    className="glass-card p-8 md:p-10 shadow-2xl" 
-                    style={{ marginTop: `${idx * 1.5}rem` }}
-                  >
+                  <div className="glass-card p-6 sm:p-8 md:p-10 shadow-2xl">
                     <div className="flex items-center gap-3 mb-6">
                       <span className="w-10 h-10 glass-icon flex items-center justify-center text-[#60A5FA]">
                         {section.icon}

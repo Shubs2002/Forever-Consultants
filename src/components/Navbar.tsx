@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <nav className="fixed top-0 w-full z-50 glass-nav">
       <div className="max-w-6xl mx-auto px-6">
@@ -34,15 +39,15 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#lic" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
+            <a href="#lic" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
               Insurance
-            </Link>
-            <Link href="#mutual-funds" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
+            </a>
+            <a href="#mutual-funds" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
               Investments
-            </Link>
-            <Link href="#health" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
+            </a>
+            <a href="#health" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
               Health
-            </Link>
+            </a>
             <a
               href="#book"
               className="text-sm font-semibold px-5 py-2 rounded-full text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-colors shadow-lg shadow-[#3B82F6]/25"
@@ -51,11 +56,41 @@ export default function Navbar() {
             </a>
           </div>
 
-          <button className="md:hidden text-zinc-400 hover:text-white transition-colors" aria-label="Menu">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M3 5h14M3 10h14M3 15h14" />
+          <button 
+            className="md:hidden text-zinc-400 hover:text-white transition-colors" 
+            aria-label="Menu"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              {isOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
             </svg>
           </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      <div 
+        className={`md:hidden absolute top-full left-0 w-full bg-[#0a0a0c]/95 backdrop-blur-2xl border-b border-[#3B82F6]/10 transition-all duration-300 origin-top ${
+          isOpen ? 'opacity-100 scale-y-100 py-6' : 'opacity-0 scale-y-0 h-0 overflow-hidden'
+        }`}
+      >
+        <div className="flex flex-col px-6 gap-2">
+          <a href="#lic" onClick={() => setIsOpen(false)} className="text-zinc-300 font-medium py-3 border-b border-white/5 text-lg">
+            Insurance
+          </a>
+          <a href="#mutual-funds" onClick={() => setIsOpen(false)} className="text-zinc-300 font-medium py-3 border-b border-white/5 text-lg">
+            Investments
+          </a>
+          <a href="#health" onClick={() => setIsOpen(false)} className="text-zinc-300 font-medium py-3 border-b border-white/5 text-lg">
+            Health
+          </a>
+          <a
+            href="#book"
+            onClick={() => setIsOpen(false)}
+            className="text-center font-semibold px-5 py-3.5 rounded-full text-white bg-[#3B82F6] shadow-lg mt-4"
+          >
+            Get Started
+          </a>
         </div>
       </div>
     </nav>
