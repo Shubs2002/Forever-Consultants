@@ -1,68 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Shield, TrendingUp, HeartPulse, Check } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SceneWrapper from "@/components/SceneWrapper";
+import Link from "next/link";
+import { servicesData as sections } from "@/data/services";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const sections = [
-  {
-    id: "hero",
-    label: "Home",
-  },
-  {
-    id: "lic",
-    label: "LIC Insurance",
-    icon: <Shield className="w-5 h-5" />,
-    title: "LIC Insurance",
-    subtitle: "Protection & Security",
-    description:
-      "Secure your family's financial future with India's most trusted life insurance provider.",
-    features: [
-      "Endowment & Money-back Policies",
-      "Term Life Insurance",
-      "Retirement & Pension Plans",
-      "Child Education Plans",
-      "Policy Servicing & Claims",
-    ],
-  },
-  {
-    id: "mutual-funds",
-    label: "Mutual Funds",
-    icon: <TrendingUp className="w-5 h-5" />,
-    title: "Mutual Funds & Wealth",
-    subtitle: "Wealth Creation",
-    description:
-      "Grow your wealth steadily with expertly managed investment portfolios.",
-    features: [
-      "SIP (Systematic Investment Plan)",
-      "SWP (Systematic Withdrawal Plan)",
-      "Portfolio Management (PMS)",
-      "Alternative Investment Funds (AIF)",
-      "NCDs / Company Fixed Deposits",
-    ],
-    note: "Note: FDs are non-breakable",
-  },
-  {
-    id: "health",
-    label: "Health Insurance",
-    icon: <HeartPulse className="w-5 h-5" />,
-    title: "Mediclaim / Health",
-    subtitle: "Health Protection",
-    description:
-      "Comprehensive health coverage through our premium hospital network partners.",
-    partners: [
-      "Care Health",
-      "Star Health",
-      "ICICI Lombard",
-      "New India Assurance",
-    ],
-  },
-];
+// Data migrated to @/data/services
 
 export default function ScrollSections() {
   const [activeSection, setActiveSection] = useState(0);
@@ -112,8 +61,11 @@ export default function ScrollSections() {
         setActiveSection(1);
       } else if (scrollY < vh * 2.5) {
         setActiveSection(2);
-      } else {
+      } else if (scrollY < vh * 3.5) {
         setActiveSection(3);
+      } else {
+        // User scrolled past the pinned service cards
+        setActiveSection(-1);
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -141,7 +93,11 @@ export default function ScrollSections() {
         <div id="health" className="absolute w-full h-10 -mt-10" style={{ top: "300vh" }} />
 
       {/* Side nav dots */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3">
+      <div 
+        className={`fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 transition-opacity duration-300 ${
+          activeSection === -1 ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
         {sections.map((s, i) => (
           <a
             key={s.id}
@@ -233,61 +189,95 @@ export default function ScrollSections() {
                   className="service-card-wrapper absolute w-full"
                   style={{ zIndex: 10 + idx }}
                 >
-                  <div className="glass-card p-6 sm:p-8 md:p-10 shadow-2xl">
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="w-10 h-10 glass-icon flex items-center justify-center text-[#60A5FA]">
-                        {section.icon}
-                      </span>
-                      <span className="text-xs font-medium tracking-wider uppercase text-zinc-500">
-                        {section.subtitle}
-                      </span>
-                    </div>
-
-                    <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">
-                      {section.title}
-                    </h2>
-                    <p className="text-zinc-600 leading-relaxed mb-8 text-sm">
-                      {section.description}
-                    </p>
-
-                    {section.features && (
-                      <ul className="space-y-3 mb-4">
-                        {section.features.map((f, i) => (
-                          <li
-                            key={i}
-                            className="flex items-center text-sm text-zinc-700 glass-feature"
-                          >
-                            <Check className="w-4 h-4 mr-3 shrink-0 text-[#3B82F6]" />
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
+                  <div className="glass-card relative p-6 sm:p-8 md:p-10 shadow-2xl">
+                    {/* Side Navigation Buttons */}
+                    {idx > 0 && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.scrollTo({ top: idx * window.innerHeight, behavior: "smooth" });
+                        }}
+                        className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full glass-cta flex items-center justify-center text-[#3B82F6] hover:text-[#2563EB] hover:scale-110 border border-[#3B82F6]/20 shadow-xl transition-all z-50"
+                        title="Previous Service"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                    )}
+                    
+                    {idx < sections.slice(1).length - 1 && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.scrollTo({ top: (idx + 2) * window.innerHeight, behavior: "smooth" });
+                        }}
+                        className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full glass-cta flex items-center justify-center text-[#3B82F6] hover:text-[#2563EB] hover:scale-110 border border-[#3B82F6]/20 shadow-xl transition-all z-50"
+                        title="Next Service"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
                     )}
 
-                    {section.partners && (
-                      <div>
-                        <p className="text-xs font-medium tracking-wider uppercase text-zinc-500 mb-3">
-                          Premium Partners
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {section.partners.map((p, i) => (
-                            <span
-                              key={i}
-                              className="text-xs px-4 py-2 glass-sm text-zinc-700 font-medium"
-                            >
-                              {p}
-                            </span>
-                          ))}
+                    <Link href={`/services/${section.id}`} className="block group mb-2" aria-label={`View details for ${section.title}`}>
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                          <span className="w-10 h-10 glass-icon flex items-center justify-center text-[#60A5FA]">
+                            {section.icon}
+                          </span>
+                          <span className="text-xs font-medium tracking-wider uppercase text-zinc-500">
+                            {section.subtitle}
+                          </span>
                         </div>
+                        <span className="flex items-center text-[#3B82F6] opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all font-semibold text-sm mr-2">
+                          View details <ArrowRight className="w-4 h-4 ml-1" />
+                        </span>
                       </div>
-                    )}
 
-                    {section.note && (
-                      <p className="mt-4 text-xs text-amber-400/80 flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-amber-400" />
-                        {section.note}
+                      <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-3 group-hover:text-[#3B82F6] transition-colors">
+                        {section.title}
+                      </h2>
+                      <p className="text-zinc-600 leading-relaxed mb-8 text-sm group-hover:text-zinc-800 transition-colors">
+                        {section.description}
                       </p>
-                    )}
+
+                      {section.features && (
+                        <ul className="space-y-3 mb-4">
+                          {section.features.map((f, i) => (
+                            <li
+                              key={i}
+                              className="flex items-center text-sm text-zinc-700 glass-feature group-hover:bg-blue-50/50 transition-colors"
+                            >
+                              <Check className="w-4 h-4 mr-3 shrink-0 text-[#3B82F6]" />
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {section.partners && (
+                        <div>
+                          <p className="text-xs font-medium tracking-wider uppercase text-zinc-500 mb-3 group-hover:text-[#3B82F6] transition-colors">
+                            Premium Partners
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {section.partners.map((p, i) => (
+                              <span
+                                key={i}
+                                className="text-xs px-4 py-2 glass-sm text-zinc-700 font-medium group-hover:border-blue-200 transition-colors"
+                              >
+                                {p}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {section.note && (
+                        <p className="mt-4 text-xs text-amber-500 flex items-center gap-1.5 group-hover:text-amber-600 transition-colors">
+                          <span className="w-1 h-1 rounded-full bg-amber-400 group-hover:bg-amber-500" />
+                          {section.note}
+                        </p>
+                      )}
+                    </Link>
                   </div>
                 </div>
               ))}

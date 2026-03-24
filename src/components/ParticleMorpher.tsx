@@ -76,24 +76,11 @@ const vertexShader = /* glsl */ `
     pos.y = mix(pos.y, baseline, (1.0 - reveal) * uIsGraph);
     pos.z = mix(pos.z, 0.0, (1.0 - reveal) * uIsGraph);
     
-    // --- ELASTIC BREATHING HEART ---
-    // 1. Soft, continuous breathing (approx 4 second cycle)
+    // --- SOFT BREATHING HEART ---
+    // Soft, continuous breathing only (no aggressive pulsing/heartbeat)
     float softBreath = sin(uTime * 1.5) * 0.06; 
     
-    // 2. Elastic retraction "moments" every ~3.5 seconds
-    float beatCycle = fract(uTime * 0.28); 
-    float elasticForce = 0.0;
-    
-    if (beatCycle < 0.1) {
-        // Smoothly retract inwards
-        elasticForce = smoothstep(0.0, 0.1, beatCycle); 
-    } else {
-        // Elastic spring back out to position with a wobble
-        float dt = beatCycle - 0.1;
-        elasticForce = exp(-12.0 * dt) * cos(40.0 * dt);
-    }
-    
-    float heartScale = 1.0 + softBreath - (0.4 * elasticForce);
+    float heartScale = 1.0 + softBreath;
     pos *= mix(1.0, heartScale, uIsHeart);
     // ----------------------------
 
@@ -191,8 +178,8 @@ export default function ParticleMorpher({
         // Growing graph representing structured growth
         result.push(graphToPoints(PARTICLE_COUNT, 3.5, 3.0));
       } else if (section.label === "health") {
-        // Hollow pulsing heart representing health and living
-        result.push(heartToPoints(PARTICLE_COUNT, 0.14, 0.35));
+        // Hollow breathing heart representing health and living (made smaller per request)
+        result.push(heartToPoints(PARTICLE_COUNT, 0.08, 0.20));
       }
     }
     return result;

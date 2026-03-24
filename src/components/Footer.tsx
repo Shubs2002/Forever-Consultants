@@ -48,7 +48,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-0.5">Contact Nitin</p>
-                  <span className="text-white font-medium text-base">9769660363</span>
+                  <span className="text-white font-medium text-base">+91 9769660363</span>
                 </div>
               </div>
               <div className="inline-flex items-center gap-4 text-sm text-zinc-300">
@@ -57,7 +57,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-0.5">Contact Sujata</p>
-                  <span className="text-white font-medium text-base">8087907776</span>
+                  <span className="text-white font-medium text-base">+91 8087907776</span>
                 </div>
               </div>
             </div>
