@@ -313,6 +313,8 @@ export default function ParticleMorpher({
     if (groupRef.current) {
       let targetX = 0;
       let targetY = 0;
+      let targetScale = window.innerWidth < 768 ? 0.5 : 1.0;
+
       if (window.innerWidth >= 768) {
         if (currentSection === 0) {
           targetX = THREE.MathUtils.lerp(0, -viewport.width / 4, sectionProgress);
@@ -324,6 +326,7 @@ export default function ParticleMorpher({
         }
       } else {
         // Mobile behavior
+        targetScale = 0.55; // Squeeze significantly down to securely prevent mobile overflow
         if (currentSection === 0) {
           targetY = THREE.MathUtils.lerp(0.5, 0, sectionProgress);
         } else {
@@ -332,6 +335,7 @@ export default function ParticleMorpher({
       }
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.1);
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.1);
+      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, 0.1));
 
       if (currentSection === 2) {
         // Face perfectly forward to readable graph

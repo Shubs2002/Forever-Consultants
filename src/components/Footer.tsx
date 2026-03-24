@@ -65,11 +65,16 @@ export default function Footer() {
 
           <div>
             <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-xs">
-              Services
+              Quick Links
             </h4>
             <ul className="space-y-4 text-sm">
               <li>
-                <a href="#lic" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                <Link href="/about" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <a href="/#lic" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
                   LIC Insurance
                 </a>
               </li>

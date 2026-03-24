@@ -39,7 +39,10 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <a href="#lic" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
+            <Link href="/about" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
+              About
+            </Link>
+            <a href="/#lic" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
               Insurance
             </a>
             <a href="#mutual-funds" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
@@ -75,7 +78,10 @@ export default function Navbar() {
         }`}
       >
         <div className="flex flex-col px-6 gap-2">
-          <a href="#lic" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">
+          <Link href="/about" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">
+            About
+          </Link>
+          <a href="/#lic" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">
             Insurance
           </a>
           <a href="#mutual-funds" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">

@@ -20,9 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${openSans.variable} ${playfair.variable} font-[family-name:var(--font-body)] min-h-screen flex flex-col`}>
+      <body className={`${openSans.variable} ${playfair.variable} font-[family-name:var(--font-body)] min-h-screen flex flex-col w-full m-0 p-0`}>
         {/* Content */}
-        <div className="relative z-10 flex flex-col min-h-screen">
+        <div className="relative flex flex-col min-h-screen w-full">
           <Navbar />
           <main className="flex-grow pt-16">{children}</main>
           <Footer />
