@@ -171,7 +171,7 @@ export default function ParticleMorpher({
   const pointsRef = useRef<THREE.Points>(null);
   const groupRef = useRef<THREE.Group>(null);
   const { viewport } = useThree();
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [mouse, setMouse] = useState({ x: 999, y: 999 }); // Initialize off-screen
 
   // Track mouse movement
   useEffect(() => {
@@ -219,9 +219,10 @@ export default function ParticleMorpher({
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       phases[i] = (i / PARTICLE_COUNT) * Math.PI * 2;
 
-      randOffsets[i * 3] = (Math.random() - 0.5) * 0.08;
-      randOffsets[i * 3 + 1] = (Math.random() - 0.5) * 0.08;
-      randOffsets[i * 3 + 2] = (Math.random() - 0.5) * 0.08;
+      // Reduce random offset to make initial shape clearer
+      randOffsets[i * 3] = (Math.random() - 0.5) * 0.02;
+      randOffsets[i * 3 + 1] = (Math.random() - 0.5) * 0.02;
+      randOffsets[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
 
       sizes[i] = Math.random() * 1.8 + 0.5;
       speeds[i] = 0.06 + Math.random() * 0.1;
@@ -229,7 +230,7 @@ export default function ParticleMorpher({
 
     const geo = new THREE.BufferGeometry();
 
-    // Set initial positions from first target
+    // Set initial positions from first target (infinity)
     const posFrom = new THREE.BufferAttribute(
       new Float32Array(targets[0]),
       3
@@ -249,10 +250,10 @@ export default function ParticleMorpher({
     geo.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
     geo.setAttribute("aSpeed", new THREE.BufferAttribute(speeds, 1));
 
-    // Dummy position attribute (required by Three.js)
+    // Set actual position attribute to infinity shape for immediate display
     geo.setAttribute(
       "position",
-      new THREE.BufferAttribute(new Float32Array(PARTICLE_COUNT * 3), 3)
+      new THREE.BufferAttribute(new Float32Array(targets[0]), 3)
     );
 
     const u = {
@@ -281,8 +282,11 @@ export default function ParticleMorpher({
 
   /* ── Update targets when section changes ─────────────────── */
   useEffect(() => {
-    const fromIdx = currentSection;
-    const toIdx = Math.min(currentSection + 1, MORPH_SECTIONS.length - 1);
+    // On mobile, always keep infinity shape (section 0)
+    const isMobile = window.innerWidth < 768;
+    
+    const fromIdx = isMobile ? 0 : currentSection;
+    const toIdx = isMobile ? 0 : Math.min(currentSection + 1, MORPH_SECTIONS.length - 1);
 
     if (
       loadedRef.current.from !== fromIdx ||
@@ -309,37 +313,60 @@ export default function ParticleMorpher({
   /* ── Per-frame animation loop ────────────────────────────── */
   useFrame((_state, delta) => {
     uniforms.uTime.value += delta;
-    uniforms.uMorph.value = sectionProgress;
-    uniforms.uMouse.value.set(mouse.x, mouse.y);
+    
+    // On mobile, keep morph at 0 (always infinity)
+    const isMobile = window.innerWidth < 768;
+    uniforms.uMorph.value = isMobile ? 0 : sectionProgress;
+    
+    // Disable mouse interaction on mobile (set far off-screen), enable on desktop
+    if (isMobile) {
+      uniforms.uMouse.value.set(999, 999);
+    } else {
+      uniforms.uMouse.value.set(mouse.x, mouse.y);
+    }
 
-    // Pass flag if from/to is infinity
-    uniforms.uIsInfinityFrom.value = loadedRef.current.from === 0 ? 1.0 : 0.0;
-    uniforms.uIsInfinityTo.value = loadedRef.current.to === 0 ? 1.0 : 0.0;
+    // Pass flag if from/to is infinity (always true on mobile)
+    uniforms.uIsInfinityFrom.value = (isMobile || loadedRef.current.from === 0) ? 1.0 : 0.0;
+    uniforms.uIsInfinityTo.value = (isMobile || loadedRef.current.to === 0) ? 1.0 : 0.0;
 
     let isGraph = 0.0;
-    if (loadedRef.current.from === 2 && loadedRef.current.to === 2) {
-      isGraph = 1.0;
-    } else if (loadedRef.current.to === 2) {
-      isGraph = uniforms.uMorph.value;
-    } else if (loadedRef.current.from === 2) {
-      isGraph = 1.0 - uniforms.uMorph.value;
+    if (!isMobile) {
+      if (loadedRef.current.from === 2 && loadedRef.current.to === 2) {
+        isGraph = 1.0;
+      } else if (loadedRef.current.to === 2) {
+        isGraph = uniforms.uMorph.value;
+      } else if (loadedRef.current.from === 2) {
+        isGraph = 1.0 - uniforms.uMorph.value;
+      }
     }
     uniforms.uIsGraph.value = isGraph;
 
     let isHeart = 0.0;
-    if (loadedRef.current.from === 3 && loadedRef.current.to === 3) {
-      isHeart = 1.0;
-    } else if (loadedRef.current.to === 3) {
-      isHeart = uniforms.uMorph.value;
-    } else if (loadedRef.current.from === 3) {
-      isHeart = 1.0 - uniforms.uMorph.value;
+    if (!isMobile) {
+      if (loadedRef.current.from === 3 && loadedRef.current.to === 3) {
+        isHeart = 1.0;
+      } else if (loadedRef.current.to === 3) {
+        isHeart = uniforms.uMorph.value;
+      } else if (loadedRef.current.from === 3) {
+        isHeart = 1.0 - uniforms.uMorph.value;
+      }
     }
     uniforms.uIsHeart.value = isHeart;
 
     if (groupRef.current) {
       let targetX = 0;
       let targetY = 0;
-      let targetScale = window.innerWidth < 768 ? 0.5 : 1.0;
+      let targetScale = 1.0;
+
+      // Hide on mobile when scrolled past hero section (currentSection > 0)
+      if (isMobile) {
+        targetScale = 0.5;
+        if (currentSection > 0) {
+          groupRef.current.visible = false;
+        } else {
+          groupRef.current.visible = true;
+        }
+      }
 
       if (window.innerWidth >= 768) {
         if (currentSection === 0) {

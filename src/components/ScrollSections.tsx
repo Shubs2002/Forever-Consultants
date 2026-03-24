@@ -74,8 +74,8 @@ export default function ScrollSections() {
 
   return (
     <div className="relative w-full">
-      {/* 3D Particle Background - Sticky until we scroll past this container */}
-      <div className="sticky top-0 h-screen w-full pointer-events-none z-0 overflow-hidden">
+      {/* 3D Particle Background - Sticky on desktop, Fixed on mobile */}
+      <div className="sticky md:sticky fixed top-0 h-screen w-full pointer-events-none z-0 overflow-hidden">
         <SceneWrapper />
       </div>
 
@@ -165,7 +165,9 @@ export default function ScrollSections() {
               <span className="relative font-semibold">Explore Our Services</span>
             </a>
             <a
-              href="#book"
+              href="https://cal.com/shubham-wcjybp"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium glass-cta text-[#3B82F6] transition-all hover:scale-[1.02] hover:text-[#2563EB]"
             >
               Book a Consultation

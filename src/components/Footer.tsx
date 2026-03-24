@@ -98,6 +98,11 @@ export default function Footer() {
             <ul className="space-y-4 text-sm">
               <li className="text-zinc-400">ntngandhi65@gmail.com</li>
               <li className="text-zinc-400">sujatagandhi72@gmail.com</li>
+              <li>
+                <Link href="/contact" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  Email Us
+                </Link>
+              </li>
               <li className="pt-4">
                 <a
                   href="#book"

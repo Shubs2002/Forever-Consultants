@@ -248,7 +248,9 @@ export default function AboutPage() {
             Book a dedicated consultation directly with our founders today to construct your aggressively optimized and fully protected personal financial roadmap.
           </p>
           <Link
-            href="/#book"
+            href="https://cal.com/shubham-wcjybp"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 px-10 py-5 bg-white text-[#0B0F19] rounded-full font-extrabold text-lg hover:scale-105 hover:bg-zinc-50 transition-all relative z-10 shadow-[0_0_40px_rgba(255,255,255,0.3)]"
           >
             Schedule Appointment 
