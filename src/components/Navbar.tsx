@@ -33,19 +33,19 @@ export default function Navbar() {
                 fill="none"
               />
             </svg>
-            <span className="font-semibold text-lg tracking-tight text-zinc-200 group-hover:text-white transition-colors">
+            <span className="font-semibold text-lg tracking-tight text-zinc-800 group-hover:text-black transition-colors">
               Forever Consultants
             </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <a href="#lic" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
+            <a href="#lic" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
               Insurance
             </a>
-            <a href="#mutual-funds" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
+            <a href="#mutual-funds" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
               Investments
             </a>
-            <a href="#health" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">
+            <a href="#health" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
               Health
             </a>
             <a
@@ -57,7 +57,7 @@ export default function Navbar() {
           </div>
 
           <button 
-            className="md:hidden text-zinc-400 hover:text-white transition-colors" 
+            className="md:hidden text-zinc-600 hover:text-zinc-900 transition-colors" 
             aria-label="Menu"
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -70,18 +70,18 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       <div 
-        className={`md:hidden absolute top-full left-0 w-full bg-[#0a0a0c]/95 backdrop-blur-2xl border-b border-[#3B82F6]/10 transition-all duration-300 origin-top ${
+        className={`md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-2xl border-b border-black/5 transition-all duration-300 origin-top ${
           isOpen ? 'opacity-100 scale-y-100 py-6' : 'opacity-0 scale-y-0 h-0 overflow-hidden'
         }`}
       >
         <div className="flex flex-col px-6 gap-2">
-          <a href="#lic" onClick={() => setIsOpen(false)} className="text-zinc-300 font-medium py-3 border-b border-white/5 text-lg">
+          <a href="#lic" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">
             Insurance
           </a>
-          <a href="#mutual-funds" onClick={() => setIsOpen(false)} className="text-zinc-300 font-medium py-3 border-b border-white/5 text-lg">
+          <a href="#mutual-funds" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">
             Investments
           </a>
-          <a href="#health" onClick={() => setIsOpen(false)} className="text-zinc-300 font-medium py-3 border-b border-white/5 text-lg">
+          <a href="#health" onClick={() => setIsOpen(false)} className="text-zinc-700 font-medium py-3 border-b border-black/5 text-lg">
             Health
           </a>
           <a

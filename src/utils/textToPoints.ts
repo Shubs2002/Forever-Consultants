@@ -138,76 +138,95 @@ export function sphereToPoints(count: number, radius: number = 2.0): Float32Arra
 }
 
 /**
- * Generate an upward-facing square pyramid.
- * Distributes points along the four triangular faces.
+ * Generate a growing line graph showing steady mutual fund growth.
  */
-export function pyramidToPoints(count: number, size: number = 2.5, height: number = 3.0): Float32Array {
+export function graphToPoints(count: number, width: number = 3.5, height: number = 2.5): Float32Array {
   const positions = new Float32Array(count * 3);
+  
+  // Data points for a growing stock chart (X from 0.0 to 1.0, Y from 0.0 to 1.0)
+  const graphData = [
+    { x: 0.0, y: 0.1 },
+    { x: 0.15, y: 0.15 },
+    { x: 0.30, y: 0.1 },
+    { x: 0.45, y: 0.35 },
+    { x: 0.60, y: 0.4 },
+    { x: 0.80, y: 0.7 },
+    { x: 1.0, y: 0.95 }
+  ];
+  
   for (let i = 0; i < count; i++) {
-    // Generate uniform points on 2D triangle
-    const r1 = Math.random();
-    const r2 = Math.random();
-    const sqrtR1 = Math.sqrt(r1);
+    const typeProb = Math.random();
     
-    // Distance from apex downwards
-    const h = sqrtR1; 
-    // Y position (Apex is at height/2, base is at -height/2)
-    const y = (height / 2) - h * height; 
-    
-    // Width of the pyramid face at this height
-    const w = h * size;
-    
-    // Pick a random face (0 to 3)
-    const face = Math.floor(Math.random() * 4);
-    // Position across the face's width (-0.5 to 0.5)
-    const t = r2 - 0.5;
-    
-    let x = 0, z = 0;
-    if (face === 0) { x = t * w; z = w / 2; }
-    else if (face === 1) { x = t * w; z = -w / 2; }
-    else if (face === 2) { x = w / 2; z = t * w; }
-    else { x = -w / 2; z = t * w; } // face 3
-    
-    // Add slight noise to give the pyramid volume/thickness
-    positions[i * 3] = x + (Math.random() - 0.5) * 0.1;
-    positions[i * 3 + 1] = y + (Math.random() - 0.5) * 0.1;
-    positions[i * 3 + 2] = z + (Math.random() - 0.5) * 0.1;
+    // 15% particles to draw grid/axes
+    if (typeProb < 0.15) {
+      if (Math.random() > 0.5) {
+        // X-axis / bottom boundary
+        positions[i*3] = (Math.random() - 0.5) * width;
+        positions[i*3 + 1] = -height / 2;
+        positions[i*3 + 2] = (Math.random() - 0.5) * 0.5;
+      } else {
+        // Grid lines (vertical and horizontal scattered)
+        positions[i*3] = (Math.random() - 0.5) * width;
+        positions[i*3 + 1] = (Math.random() - 0.5) * height;
+        positions[i*3 + 2] = -0.5; // push grid backward
+      }
+    } 
+    else {
+      // Find Y on the specific line segment
+      const t = Math.random(); // t from 0 to 1
+      let yNorm = 0;
+      for (let j = 0; j < graphData.length - 1; j++) {
+        if (t >= graphData[j].x && t <= graphData[j+1].x) {
+          const segmentT = (t - graphData[j].x) / (graphData[j+1].x - graphData[j].x);
+          yNorm = graphData[j].y + segmentT * (graphData[j+1].y - graphData[j].y);
+          break;
+        }
+      }
+      
+      const worldX = (t - 0.5) * width;
+      const worldY = (yNorm - 0.5) * height;
+
+      // 35% particles as the solid area UNDER the curve
+      if (typeProb < 0.5) {
+        // Random Y under the curve yNorm
+        const fillDist = Math.random() * yNorm;
+        positions[i*3] = worldX + (Math.random() - 0.5) * 0.1;
+        positions[i*3+1] = (fillDist - 0.5) * height; 
+        positions[i*3+2] = (Math.random() - 0.5) * 0.3; 
+      } 
+      // 50% particles as the thick glowing line itself
+      else {
+        positions[i*3] = worldX + (Math.random() - 0.5) * 0.05;
+        positions[i*3+1] = worldY + (Math.random() - 0.5) * 0.05;
+        positions[i*3+2] = (Math.random() - 0.5) * 0.6; // wide 3D ribbon
+      }
+    }
   }
   return positions;
 }
 
 /**
- * Generate a DNA double helix.
- * Represents life, biology, and health.
+ * Generate a hollow 3D-like heart shape.
+ * Represents health insurance and care.
  */
-export function helixToPoints(count: number, radius: number = 1.0, height: number = 4.0, turns: number = 2.5): Float32Array {
+export function heartToPoints(count: number, scale: number = 0.14, scatter: number = 0.35): Float32Array {
   const positions = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
-    const t = Math.random(); // 0 to 1 position along the helix
-    const angle = t * turns * 2 * Math.PI;
-    const y = (t - 0.5) * height; // Centered vertically
+    // Distribute points predominantly along the outline (2PI contour)
+    const t = Math.random() * Math.PI * 2;
     
-    // Two opposite strands
-    const strandOffset = i % 2 === 0 ? 0 : Math.PI;
+    // Parametric heart equations
+    const x = scale * 16 * Math.pow(Math.sin(t), 3);
+    const y = scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
     
-    // Occasional connecting bridges (rungs)
-    // 15% of particles form rungs between the strands
-    if (Math.random() > 0.85) {
-      const rungT = Math.random(); // Position along the rung diameter
-      // Linear interpolation between the two strands
-      const x1 = radius * Math.cos(angle);
-      const z1 = radius * Math.sin(angle);
-      const x2 = radius * Math.cos(angle + Math.PI);
-      const z2 = radius * Math.sin(angle + Math.PI);
-      
-      positions[i * 3] = x1 + rungT * (x2 - x1);
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z1 + rungT * (z2 - z1);
-    } else {
-      positions[i * 3] = radius * Math.cos(angle + strandOffset) + (Math.random() - 0.5) * 0.2;
-      positions[i * 3 + 1] = y + (Math.random() - 0.5) * 0.1;
-      positions[i * 3 + 2] = radius * Math.sin(angle + strandOffset) + (Math.random() - 0.5) * 0.2;
-    }
+    // Slight noise for volumetric "hollow tube" thickness
+    const nx = (Math.random() - 0.5) * scatter;
+    const ny = (Math.random() - 0.5) * scatter;
+    const nz = (Math.random() - 0.5) * (scatter * 1.5); // Deeper on Z axis
+    
+    positions[i * 3] = x + nx;
+    positions[i * 3 + 1] = y + ny + 0.4; // Raise it slightly so it spins on-center
+    positions[i * 3 + 2] = nz;
   }
   return positions;
 }

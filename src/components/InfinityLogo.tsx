@@ -46,6 +46,7 @@ const vertexShader = /* glsl */ `
 const fragmentShader = /* glsl */ `
   uniform vec3 uColorBlue;
   uniform vec3 uColorGlow;
+  uniform vec3 uColorTertiary;
   uniform float uTime;
 
   varying float vPhase;
@@ -58,8 +59,15 @@ const fragmentShader = /* glsl */ `
     float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
     alpha = pow(alpha, 1.8);
 
-    // Gradient: electric blue to glowing blue
-    vec3 color = mix(uColorBlue, uColorGlow, smoothstep(0.2, 0.8, vPhase));
+    // Continuous 3-color gradient loop
+    vec3 color;
+    if (vPhase < 0.333) {
+      color = mix(uColorBlue, uColorTertiary, vPhase * 3.0);
+    } else if (vPhase < 0.666) {
+      color = mix(uColorTertiary, uColorGlow, (vPhase - 0.333) * 3.0);
+    } else {
+      color = mix(uColorGlow, uColorBlue, (vPhase - 0.666) * 3.0);
+    }
 
     float pulse = 0.9 + 0.1 * sin(uTime * 1.2 + vPhase * 6.28318);
 
@@ -116,8 +124,9 @@ export default function InfinityLogo({ scrollProgress = 0 }: InfinityLogoProps) 
       uTime: { value: 0 },
       uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
       uScrollProgress: { value: 0 },
-      uColorBlue: { value: new THREE.Color("#3B82F6") },
-      uColorGlow: { value: new THREE.Color("#93C5FD") },
+      uColorBlue: { value: new THREE.Color("#2563EB") },
+      uColorTertiary: { value: new THREE.Color("#8B5CF6") },
+      uColorGlow: { value: new THREE.Color("#06B6D4") },
     };
 
     return { geometry: geo, uniforms: u };
@@ -152,7 +161,7 @@ export default function InfinityLogo({ scrollProgress = 0 }: InfinityLogoProps) 
           uniforms={uniforms}
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
         />
       </points>
     </group>

@@ -59,21 +59,21 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-24 px-6 relative w-full overflow-hidden">
+    <section ref={containerRef} className="py-24 px-6 relative w-full overflow-hidden bg-gradient-to-b from-transparent to-[#EEF2FF]">
       {/* Background accents */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#3B82F6]/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-[#93C5FD]/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-sm text-xs font-medium text-zinc-400 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-sm text-xs font-medium text-zinc-600 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
             Client Success
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[#F4F4F5]">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
             Trusted by <span className="gradient-text-accent">Families</span>
           </h2>
-          <p className="mt-6 text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-zinc-600 max-w-2xl mx-auto leading-relaxed">
             See what our clients have to say about their journey to financial security and peace of mind with Forever Consultants.
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function Testimonials() {
               }}
               className="glass-card p-8 flex flex-col relative group transition-transform duration-500 hover:-translate-y-2"
             >
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-zinc-800 transition-colors duration-500 group-hover:text-[#3B82F6]/20" />
+              <Quote className="absolute top-6 right-6 w-10 h-10 text-zinc-200 transition-colors duration-500 group-hover:text-zinc-900/10" />
               
               <div className="flex gap-1 mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
@@ -95,18 +95,18 @@ export default function Testimonials() {
                 ))}
               </div>
               
-              <p className="text-zinc-300 leading-relaxed mb-8 flex-grow text-sm relative z-10">
+              <p className="text-zinc-700 leading-relaxed mb-8 flex-grow text-sm relative z-10">
                 "{testimonial.content}"
               </p>
               
               <div className="flex items-center gap-4 mt-auto">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#60A5FA] p-[1px]">
-                  <div className="w-full h-full rounded-full bg-[#0a0a0c] flex items-center justify-center font-bold text-[#F4F4F5] text-sm">
+                  <div className="w-full h-full rounded-full bg-white flex items-center justify-center font-bold text-[#3B82F6] text-sm">
                     {testimonial.name.charAt(0)}
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-zinc-200">
+                  <h4 className="text-sm font-semibold text-zinc-900">
                     {testimonial.name}
                   </h4>
                   <p className="text-xs text-zinc-500">{testimonial.role}</p>

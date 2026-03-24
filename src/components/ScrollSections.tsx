@@ -179,19 +179,22 @@ export default function ScrollSections() {
         id="hero"
         className="min-h-screen flex items-center justify-center px-6 relative"
       >
-        <div className="text-center z-10 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-sm text-xs font-medium text-zinc-400 mb-8">
+        <div className="text-center z-10 max-w-2xl mx-auto relative">
+          {/* Subtle white halo behind text to mask flying particles */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[160%] bg-white/80 blur-3xl rounded-full -z-10 pointer-events-none" />
+
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-sm text-xs font-medium text-zinc-600 mb-8 drop-shadow-[0_0_12px_rgba(255,255,255,1)]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] animate-pulse shadow-sm shadow-[#3B82F6]/50" />
             Total Investment Solutions
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-            <span className="text-[#F4F4F5]">Securing Your</span>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,1)]">
+            <span className="text-zinc-900">Securing Your</span>
             <br />
             <span className="gradient-text-accent">Future, Forever.</span>
           </h1>
 
-          <p className="text-lg text-zinc-400 max-w-md mx-auto mb-10 leading-relaxed">
+          <p className="text-lg text-zinc-600 max-w-md mx-auto mb-10 leading-relaxed drop-shadow-[0_0_16px_rgba(255,255,255,1)]">
             Comprehensive wealth protection and growth strategies tailored to
             your lifelong goals.
           </p>
@@ -207,7 +210,7 @@ export default function ScrollSections() {
             </a>
             <a
               href="#book"
-              className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium glass-cta text-zinc-300 transition-all hover:scale-[1.02] hover:text-white"
+              className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium glass-cta text-[#3B82F6] transition-all hover:scale-[1.02] hover:text-[#2563EB]"
             >
               Book a Consultation
             </a>
@@ -240,10 +243,10 @@ export default function ScrollSections() {
                       </span>
                     </div>
 
-                    <h2 className="text-3xl md:text-4xl font-bold text-[#F4F4F5] mb-3">
+                    <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">
                       {section.title}
                     </h2>
-                    <p className="text-zinc-400 leading-relaxed mb-8 text-sm">
+                    <p className="text-zinc-600 leading-relaxed mb-8 text-sm">
                       {section.description}
                     </p>
 
@@ -252,7 +255,7 @@ export default function ScrollSections() {
                         {section.features.map((f, i) => (
                           <li
                             key={i}
-                            className="flex items-center text-sm text-zinc-300 glass-feature"
+                            className="flex items-center text-sm text-zinc-700 glass-feature"
                           >
                             <Check className="w-4 h-4 mr-3 shrink-0 text-[#3B82F6]" />
                             {f}
@@ -270,7 +273,7 @@ export default function ScrollSections() {
                           {section.partners.map((p, i) => (
                             <span
                               key={i}
-                              className="text-xs px-4 py-2 glass-sm text-zinc-300 font-medium"
+                              className="text-xs px-4 py-2 glass-sm text-zinc-700 font-medium"
                             >
                               {p}
                             </span>

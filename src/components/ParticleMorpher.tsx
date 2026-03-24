@@ -3,20 +3,21 @@
 import { useRef, useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { textToPoints, infinityToPoints, sphereToPoints, pyramidToPoints, helixToPoints } from "@/utils/textToPoints";
+import { textToPoints, infinityToPoints, sphereToPoints, graphToPoints, heartToPoints } from "@/utils/textToPoints";
 
 const PARTICLE_COUNT = 2500;
 
 const MORPH_SECTIONS = [
   { label: "infinity" },       // hero → ∞
   { label: "lic" },             // LIC → Sphere
-  { label: "mutual-funds" },    // Mutual Funds → Pyramid
-  { label: "health" },          // Health → Helix
+  { label: "mutual-funds" },    // Mutual Funds → Graph
+  { label: "health" },          // Health → Heart
 ];
 
 /* ── Same colors for all sections ────────────────────────────── */
-const COLOR_BASE = "#3B82F6";  // electric blue
-const COLOR_GLOW = "#93C5FD";  // light blue
+const COLOR_BASE = "#2563EB";     // Royal Blue
+const COLOR_TERTIARY = "#8B5CF6"; // Purple
+const COLOR_GLOW = "#06B6D4";     // Cyan
 
 
 /* ─────────────────────────────────────────────────────────────── */
@@ -27,6 +28,8 @@ const vertexShader = /* glsl */ `
   uniform float uMorph;          // 0→1 current morph progress
   uniform float uIsInfinityFrom; // 1.0 if 'from' shape is infinity, else 0.0
   uniform float uIsInfinityTo;   // 1.0 if 'to' shape is infinity, else 0.0
+  uniform float uIsGraph;        // 1.0 if shape is graph
+  uniform float uIsHeart;        // 1.0 if shape is heart
 
   attribute vec3 aPositionFrom;  // current shape positions
   attribute vec3 aPositionTo;    // next shape positions
@@ -46,9 +49,6 @@ const vertexShader = /* glsl */ `
     vec3 posFrom = aPositionFrom + aRandOffset * 0.12;
     vec3 posTo   = aPositionTo   + aRandOffset * 0.12;
 
-    // For infinity shape (when morph is towards or from target 0), keep rotation
-    // We pass a Phase attribute to keep it animating along the Lissajous curve
-    
     // Add gentle orbital motion
     float drift = uTime * aSpeed + aPhase;
     
@@ -66,6 +66,37 @@ const vertexShader = /* glsl */ `
     vec3 actualPosTo = mix(posTo, animatedInfinityTo, uIsInfinityTo);
 
     vec3 pos = mix(actualPosFrom, actualPosTo, t);
+
+    // --- GRAPH DRAWING EFFECT ---
+    float drawProgress = fract(uTime * 0.15); // Loops every ~6.6s
+    float currentDrawX = mix(-2.5, 2.5, drawProgress);
+    float reveal = smoothstep(currentDrawX + 0.15, currentDrawX - 0.15, pos.x);
+    
+    float baseline = -1.25; 
+    pos.y = mix(pos.y, baseline, (1.0 - reveal) * uIsGraph);
+    pos.z = mix(pos.z, 0.0, (1.0 - reveal) * uIsGraph);
+    
+    // --- ELASTIC BREATHING HEART ---
+    // 1. Soft, continuous breathing (approx 4 second cycle)
+    float softBreath = sin(uTime * 1.5) * 0.06; 
+    
+    // 2. Elastic retraction "moments" every ~3.5 seconds
+    float beatCycle = fract(uTime * 0.28); 
+    float elasticForce = 0.0;
+    
+    if (beatCycle < 0.1) {
+        // Smoothly retract inwards
+        elasticForce = smoothstep(0.0, 0.1, beatCycle); 
+    } else {
+        // Elastic spring back out to position with a wobble
+        float dt = beatCycle - 0.1;
+        elasticForce = exp(-12.0 * dt) * cos(40.0 * dt);
+    }
+    
+    float heartScale = 1.0 + softBreath - (0.4 * elasticForce);
+    pos *= mix(1.0, heartScale, uIsHeart);
+    // ----------------------------
+
     vPosY = pos.y;
 
     // Add scatter during transition (t is morph progress from 0..1)
@@ -95,8 +126,9 @@ const vertexShader = /* glsl */ `
 const fragmentShader = /* glsl */ `
   uniform vec3 uColorBase;
   uniform vec3 uColorGlow;
+  uniform vec3 uColorTertiary;
   uniform float uTime;
-  uniform float uIsPyramid;
+  uniform float uIsGraph;
 
   varying float vPhase;
   varying float vAlpha;
@@ -109,11 +141,19 @@ const fragmentShader = /* glsl */ `
     float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
     alpha = pow(alpha, 1.8);
 
-    vec3 baseCol = mix(uColorBase, uColorGlow, smoothstep(0.2, 0.8, vPhase));
+    vec3 baseCol;
+    if (vPhase < 0.333) {
+      baseCol = mix(uColorBase, uColorTertiary, vPhase * 3.0);
+    } else if (vPhase < 0.666) {
+      baseCol = mix(uColorTertiary, uColorGlow, (vPhase - 0.333) * 3.0);
+    } else {
+      baseCol = mix(uColorGlow, uColorBase, (vPhase - 0.666) * 3.0);
+    }
+
     float g = smoothstep(-1.5, 1.5, vPosY);
     vec3 lightestBlue = vec3(0.8, 0.95, 1.0);
-    vec3 pyramidCol = mix(lightestBlue, uColorBase, g);
-    vec3 color = mix(baseCol, pyramidCol, uIsPyramid);
+    vec3 graphCol = mix(lightestBlue, uColorBase, g);
+    vec3 color = mix(baseCol, graphCol, uIsGraph);
 
     float pulse = 0.9 + 0.1 * sin(uTime * 1.2 + vPhase * 6.28318);
 
@@ -148,11 +188,11 @@ export default function ParticleMorpher({
         // Sphere representing protection/wholeness
         result.push(sphereToPoints(PARTICLE_COUNT, 1.8));
       } else if (section.label === "mutual-funds") {
-        // Pyramid representing structured growth
-        result.push(pyramidToPoints(PARTICLE_COUNT, 2.5, 3.0));
+        // Growing graph representing structured growth
+        result.push(graphToPoints(PARTICLE_COUNT, 3.5, 3.0));
       } else if (section.label === "health") {
-        // DNA Helix representing life and healthcare
-        result.push(helixToPoints(PARTICLE_COUNT, 1.2, 4.4, 2.5));
+        // Hollow pulsing heart representing health and living
+        result.push(heartToPoints(PARTICLE_COUNT, 0.14, 0.35));
       }
     }
     return result;
@@ -208,10 +248,12 @@ export default function ParticleMorpher({
       uTime: { value: 0 },
       uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
       uMorph: { value: 0 },
-      uIsPyramid: { value: 0 },
+      uIsGraph: { value: 0 },
+      uIsHeart: { value: 0 },
       uIsInfinityFrom: { value: 1.0 },
       uIsInfinityTo: { value: 1.0 },
       uColorBase: { value: new THREE.Color(COLOR_BASE) },
+      uColorTertiary: { value: new THREE.Color(COLOR_TERTIARY) },
       uColorGlow: { value: new THREE.Color(COLOR_GLOW) },
     };
 
@@ -261,15 +303,25 @@ export default function ParticleMorpher({
     uniforms.uIsInfinityFrom.value = loadedRef.current.from === 0 ? 1.0 : 0.0;
     uniforms.uIsInfinityTo.value = loadedRef.current.to === 0 ? 1.0 : 0.0;
 
-    let isPyramid = 0.0;
+    let isGraph = 0.0;
     if (loadedRef.current.from === 2 && loadedRef.current.to === 2) {
-      isPyramid = 1.0;
+      isGraph = 1.0;
     } else if (loadedRef.current.to === 2) {
-      isPyramid = uniforms.uMorph.value;
+      isGraph = uniforms.uMorph.value;
     } else if (loadedRef.current.from === 2) {
-      isPyramid = 1.0 - uniforms.uMorph.value;
+      isGraph = 1.0 - uniforms.uMorph.value;
     }
-    uniforms.uIsPyramid.value = isPyramid;
+    uniforms.uIsGraph.value = isGraph;
+
+    let isHeart = 0.0;
+    if (loadedRef.current.from === 3 && loadedRef.current.to === 3) {
+      isHeart = 1.0;
+    } else if (loadedRef.current.to === 3) {
+      isHeart = uniforms.uMorph.value;
+    } else if (loadedRef.current.from === 3) {
+      isHeart = 1.0 - uniforms.uMorph.value;
+    }
+    uniforms.uIsHeart.value = isHeart;
 
     if (groupRef.current) {
       let targetX = 0;
@@ -294,8 +346,12 @@ export default function ParticleMorpher({
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.1);
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.1);
 
-      if (currentSection > 0) {
-        groupRef.current.rotation.y += delta * 0.6;
+      if (currentSection === 2) {
+        // Face perfectly forward to readable graph
+        const targetRot = Math.round(groupRef.current.rotation.y / (Math.PI * 2)) * Math.PI * 2;
+        groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRot, 0.08);
+      } else if (currentSection > 0) {
+        groupRef.current.rotation.y += delta * 0.15; // Slow, majestic rotation
       } else {
         const targetRot = Math.round(groupRef.current.rotation.y / Math.PI) * Math.PI;
         groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRot, 0.05);
@@ -312,7 +368,7 @@ export default function ParticleMorpher({
           uniforms={uniforms}
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
         />
       </points>
     </group>
