@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "25+ years trusted financial advisory in Mumbai. LIC Insurance, Mutual Funds, SIP, Mediclaim & Health Insurance. Expert wealth management by Nitin & Sujata Gandhi.",
   alternates: {
-    canonical: "https://www.foreverconsultants.in",
+    canonical: "https://forever-consultants.vercel.app",
   },
 };
 

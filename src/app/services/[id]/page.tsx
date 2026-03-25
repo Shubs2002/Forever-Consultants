@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { servicesData } from "@/data/services";
 import ServiceDetailClient from "./ServiceDetailClient";
 
-const BASE_URL = "https://www.foreverconsultants.in";
+const BASE_URL = "https://forever-consultants.vercel.app";
 
 export function generateStaticParams() {
   return servicesData

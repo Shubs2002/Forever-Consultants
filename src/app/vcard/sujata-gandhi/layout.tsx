@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const BASE_URL = "https://www.foreverconsultants.in";
+const BASE_URL = "https://forever-consultants.vercel.app";
 
 export const metadata: Metadata = {
   title: "Sujata Gandhi — Senior Insurance Advisor, MDRT | Forever Consultants",
