@@ -103,6 +103,16 @@ export default function Footer() {
                   Email Us
                 </Link>
               </li>
+              <li>
+                <Link href="/vcard/nitin-gandhi" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  Nitin&apos;s vCard
+                </Link>
+              </li>
+              <li>
+                <Link href="/vcard/sujata-gandhi" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  Sujata&apos;s vCard
+                </Link>
+              </li>
               <li className="pt-4">
                 <a
                   href="#book"
