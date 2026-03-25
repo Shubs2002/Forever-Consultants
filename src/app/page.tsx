@@ -6,12 +6,14 @@ import Testimonials from "@/components/Testimonials";
 import BackToTop from "@/components/BackToTop";
 import Awards from "@/components/Awards";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
+
 export const metadata: Metadata = {
   title: "Forever Consultants — Total Investment & Insurance Solutions | Mumbai",
   description:
     "25+ years trusted financial advisory in Mumbai. LIC Insurance, Mutual Funds, SIP, Mediclaim & Health Insurance. Expert wealth management by Nitin & Sujata Gandhi.",
   alternates: {
-    canonical: "https://forever-consultants.vercel.app",
+    canonical: BASE_URL,
   },
 };
 

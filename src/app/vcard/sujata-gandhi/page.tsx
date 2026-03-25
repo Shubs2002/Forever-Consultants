@@ -66,6 +66,7 @@ export default function SujataGandhiVCard() {
   }, []);
 
   const handleDownloadVCard = () => {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://forever-consultants.vercel.app';
     const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:Sujata Gandhi
@@ -73,7 +74,7 @@ TITLE:Senior Insurance Advisor, MDRT
 TEL;TYPE=CELL:+918087907776
 EMAIL:sujatagandhi72@gmail.com
 ADR;TYPE=WORK:;;B/205, Chawre Arcade, Vasai;Nalasopara;;401203;India
-URL:https://forever-consultants.vercel.app/
+URL:${siteUrl}
 NOTE:Senior Insurance Advisor specializing in LIC Insurance, Mutual Funds, and Health Insurance
 END:VCARD`;
 
@@ -190,7 +191,7 @@ END:VCARD`;
 
             {/* Website */}
             <a
-              href="https://forever-consultants.vercel.app/"
+              href={process.env.NEXT_PUBLIC_SITE_URL || 'https://forever-consultants.vercel.app'}
               target="_blank"
               rel="noopener noreferrer"
               className="vcard-action flex items-center justify-center gap-3 w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold transition-all hover:scale-105 backdrop-blur-sm"

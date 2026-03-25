@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const INDEXNOW_KEY = "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6";
-const BASE_URL = "https://forever-consultants.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
+const HOST = BASE_URL.replace(/^https?:\/\//, '');
 
 // All URLs to submit for indexing
 const ALL_URLS = [
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
   const urlList = ALL_URLS.map((path) => `${BASE_URL}${path}`);
 
   const payload = {
-    host: "forever-consultants.vercel.app",
+    host: HOST,
     key: INDEXNOW_KEY,
     keyLocation: `${BASE_URL}/${INDEXNOW_KEY}.txt`,
     urlList,

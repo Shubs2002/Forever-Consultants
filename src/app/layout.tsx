@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-body" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-heading" });
 
-const BASE_URL = "https://forever-consultants.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
 
 export const viewport: Viewport = {
   width: "device-width",
