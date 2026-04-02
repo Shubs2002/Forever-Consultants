@@ -70,7 +70,7 @@ export default function SujataGandhiVCard() {
     const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:Sujata Gandhi
-TITLE:Senior Insurance Advisor, MDRT
+TITLE:Senior Insurance Advisor, Care Health Champion
 TEL;TYPE=CELL:+918087907776
 EMAIL:sujatagandhi72@gmail.com
 ADR;TYPE=WORK:;;B/205, Chawre Arcade, Vasai;Nalasopara;;401203;India
@@ -120,7 +120,7 @@ END:VCARD`;
           
           <div className="relative z-10 h-full flex flex-col items-center justify-end pb-6">
             <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Sujata Gandhi</h1>
-            <p className="text-white text-sm font-medium drop-shadow-md">Senior Insurance Advisor, MDRT</p>
+            <p className="text-white text-sm font-medium drop-shadow-md">Senior Insurance Advisor, Care Health Champion</p>
           </div>
         </div>
 
