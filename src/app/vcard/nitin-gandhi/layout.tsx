@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
 
-// Actual Cloudinary photo — face-centered landscape crop for OG
-const OG_IMAGE = "https://res.cloudinary.com/dbnlmt97x/image/upload/c_fill,g_north,w_1200,h_630,q_auto,f_auto/v1775031318/Untitled_design_24_ze2wqv.png";
+// Full uncropped photo padded to landscape for WhatsApp/OG
+const OG_IMAGE = "https://res.cloudinary.com/dbnlmt97x/image/upload/c_pad,b_rgb:0a0a0c,w_1200,h_630,q_auto,f_auto/v1775031318/Untitled_design_24_ze2wqv.png";
 
 export const metadata: Metadata = {
   title: "Nitin Gandhi — 8x MDRT Qualifier & Senior Insurance Advisor | Forever Consultants",
