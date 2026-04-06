@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Open_Sans, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -108,11 +109,14 @@ export const metadata: Metadata = {
   },
 
   // ── Verification ───────────────────────────────────────
-  // Add your actual verification codes here once you have them:
-  // verification: {
-  //   google: "YOUR_GOOGLE_VERIFICATION_CODE",
-  //   yandex: "YOUR_YANDEX_VERIFICATION_CODE",
-  // },
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION && {
+      other: {
+        "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+      },
+    }),
+  },
 
   // ── App & Icons ────────────────────────────────────────
   applicationName: "Forever Consultants",
@@ -327,6 +331,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en" dir="ltr">
       <head>
@@ -334,6 +340,22 @@ export default function RootLayout({
         <link rel="canonical" href={BASE_URL} />
       </head>
       <body className={`${openSans.variable} ${playfair.variable} font-[family-name:var(--font-body)] min-h-screen flex flex-col w-full m-0 p-0`}>
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        )}
         {/* Content */}
         <div className="relative flex flex-col min-h-screen w-full">
           <Navbar />
