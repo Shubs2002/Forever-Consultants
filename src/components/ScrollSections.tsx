@@ -92,8 +92,21 @@ export default function ScrollSections() {
 
   return (
     <div className="relative w-full">
-      {/* 3D Particle Background - Using absolute wrapper with sticky child to eliminate -mt-[100vh] CLS */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      {/* Hero background image — clipped to first viewport only, does NOT scroll into services */}
+      <div className="absolute top-0 left-0 w-full h-[100svh] pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <img
+          src="https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1776022942/remove_Build_and_202604130111_w9xk1g.jpg"
+          alt=""
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover opacity-[0.17]"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      {/* 3D Particle Background - sticky wrapper follows scroll for morphing animation */}
+      <div className="absolute inset-0 pointer-events-none z-[1]">
         <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
           <SceneWrapper />
         </div>
@@ -164,13 +177,13 @@ export default function ScrollSections() {
             Total Investment Solutions
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,1)]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,1)]" data-speakable="true">
             <span className="text-zinc-900">Securing Your</span>
             <br />
             <span className="gradient-text-accent">Future, Forever.</span>
           </h1>
 
-          <p className="text-lg text-zinc-600 max-w-md mx-auto mb-10 leading-relaxed drop-shadow-[0_0_16px_rgba(255,255,255,1)]">
+          <p className="text-lg text-zinc-600 max-w-md mx-auto mb-10 leading-relaxed drop-shadow-[0_0_16px_rgba(255,255,255,1)]" data-speakable="true">
             Comprehensive wealth protection and growth strategies tailored to
             your lifelong goals.
           </p>

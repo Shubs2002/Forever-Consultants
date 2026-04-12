@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-50 glass-nav">
+    <nav className="fixed top-0 w-full z-50 glass-nav" aria-label="Main navigation">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2.5 group">
@@ -74,7 +74,8 @@ export default function Navbar() {
 
             <button 
               className="md:hidden flex items-center justify-center w-9 h-9 text-zinc-600 hover:text-zinc-900 transition-colors" 
-              aria-label="Menu"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
               onClick={() => setIsOpen(!isOpen)}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

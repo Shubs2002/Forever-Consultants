@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-[#0a0a0c] border-t border-white/5 overflow-hidden">
+    <footer className="relative w-full bg-[#0a0a0c] border-t border-white/5 overflow-hidden" role="contentinfo" aria-label="Site footer">
       {/* Subtle glow at the top edge of the footer */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#3B82F6]/50 to-transparent opacity-50" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#3B82F6]/10 blur-[120px] rounded-full pointer-events-none" />
@@ -42,28 +42,49 @@ export default function Footer() {
             </p>
             
             <div className="flex flex-col gap-4">
-              <div className="inline-flex items-center gap-4 text-sm text-zinc-300">
-                <div className="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center border border-[#3B82F6]/20">
+              <a href="tel:+919769660363" className="inline-flex items-center gap-4 text-sm text-zinc-300 hover:text-white transition-colors group">
+                <div className="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center border border-[#3B82F6]/20 group-hover:bg-[#3B82F6]/20 transition-colors">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#3B82F6] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                 </div>
                 <div>
                   <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-0.5">Contact Nitin</p>
                   <span className="text-white font-medium text-base">+91 9769660363</span>
                 </div>
-              </div>
-              <div className="inline-flex items-center gap-4 text-sm text-zinc-300">
-                <div className="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center border border-[#3B82F6]/20">
+              </a>
+              <a href="tel:+918087907776" className="inline-flex items-center gap-4 text-sm text-zinc-300 hover:text-white transition-colors group">
+                <div className="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center border border-[#3B82F6]/20 group-hover:bg-[#3B82F6]/20 transition-colors">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#3B82F6] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                 </div>
                 <div>
                   <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-0.5">Contact Sujata</p>
                   <span className="text-white font-medium text-base">+91 8087907776</span>
                 </div>
-              </div>
+              </a>
             </div>
+
+            {/* Office Address */}
+            <a
+              href="https://maps.app.goo.gl/78WparuwzdgcQCDYA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-start gap-4 text-sm text-zinc-300 hover:text-white transition-colors group mt-2"
+            >
+              <div className="w-10 h-10 shrink-0 rounded-full bg-[#3B82F6]/10 flex items-center justify-center border border-[#3B82F6]/20 group-hover:bg-[#3B82F6]/20 transition-colors mt-0.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-0.5">Office</p>
+                <span className="text-white font-medium text-sm leading-relaxed">
+                  Shop No 3, Rajhans Complex,<br />
+                  2nd Road, near SVC Bank,<br />
+                  Nalasopara West, Vasai-Virar,<br />
+                  Maharashtra 401203
+                </span>
+              </div>
+            </a>
           </div>
 
-          <div>
+          <nav aria-label="Quick links">
             <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-xs">
               Quick Links
             </h4>
@@ -89,16 +110,28 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
-          <div>
+          <nav aria-label="Contact links">
             <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-xs">
               Talk To Us
             </h4>
             <ul className="space-y-4 text-sm">
-              <li className="text-zinc-400">foreverconsultants2311@gmail.com</li>
-              <li className="text-zinc-400">ntngandhi65@gmail.com</li>
-              <li className="text-zinc-400">sujatagandhi72@gmail.com</li>
+              <li>
+                <a href="mailto:foreverconsultants2311@gmail.com" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  foreverconsultants2311@gmail.com
+                </a>
+              </li>
+              <li>
+                <a href="mailto:ntngandhi65@gmail.com" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  ntngandhi65@gmail.com
+                </a>
+              </li>
+              <li>
+                <a href="mailto:sujatagandhi72@gmail.com" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  sujatagandhi72@gmail.com
+                </a>
+              </li>
               <li>
                 <Link href="/contact" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
                   Email Us
@@ -123,7 +156,7 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">

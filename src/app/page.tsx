@@ -6,7 +6,7 @@ import Testimonials from "@/components/Testimonials";
 import BackToTop from "@/components/BackToTop";
 import Awards from "@/components/Awards";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.foreverconsultants.in";
 
 export const metadata: Metadata = {
   title: "Forever Consultants — Total Investment & Insurance Solutions | Mumbai",

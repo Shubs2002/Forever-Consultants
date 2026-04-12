@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { servicesData } from "@/data/services";
 import ServiceDetailClient from "./ServiceDetailClient";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.foreverconsultants.in";
 
 export function generateStaticParams() {
   return servicesData
@@ -84,6 +84,40 @@ export async function generateMetadata({
 
   const meta = serviceMetaMap[resolvedParams.id];
 
+  // Service-specific FAQ schema for rich snippets
+  const faqMap: Record<string, Array<{ question: string; answer: string }>> = {
+    lic: [
+      {
+        question: "What types of LIC policies does Forever Consultants offer?",
+        answer: "We offer comprehensive advisory for all LIC policy types including Endowment Plans, Money-back Plans, Term Life Insurance, Retirement & Pension Plans, and Child Education Plans. All LIC policies come with a sovereign guarantee from the Government of India, ensuring 100% safety of your capital.",
+      },
+      {
+        question: "Why should I choose Forever Consultants for LIC insurance?",
+        answer: "Our senior advisor Nitin Gandhi is a 15x MDRT qualifier and LIC Corporate Trophy winner with 25+ years of experience. We provide end-to-end service from needs analysis and plan customization to seamless onboarding and claim settlement support.",
+      },
+    ],
+    "mutual-funds": [
+      {
+        question: "What is the minimum SIP amount to start investing?",
+        answer: "You can start a Systematic Investment Plan (SIP) with as little as ₹500 per month. Our team helps you select the best-performing funds based on your risk profile, time horizon, and financial goals, ensuring maximum returns through the power of compounding.",
+      },
+      {
+        question: "How much AUM does Forever Consultants manage?",
+        answer: "Forever Consultants manages over ₹50 Crores in assets under management (AUM) across diverse portfolios including equity mutual funds, debt funds, ELSS tax-saving schemes, and alternative investments. Our portfolios are actively monitored and rebalanced quarterly.",
+      },
+    ],
+    health: [
+      {
+        question: "Which health insurance companies does Forever Consultants work with?",
+        answer: "We partner with India's top health insurance providers including Care Health Insurance, Star Health Insurance, ICICI Lombard, and New India Assurance. Our policies provide cashless hospitalization at 10,000+ network hospitals across India.",
+      },
+      {
+        question: "Does health insurance cover pre-existing conditions?",
+        answer: "Yes, most health insurance policies cover pre-existing conditions after a waiting period (typically 2-4 years depending on the insurer). Our advisor Sujata Gandhi, a Care Health Insurance Champion, helps you choose the policy with the most favorable terms for your specific health profile.",
+      },
+    ],
+  };
+
   return {
     title: meta?.title || service.title,
     description: meta?.description || service.description,
@@ -103,6 +137,29 @@ export async function generateMetadata({
           alt: `${service.title} — Forever Consultants`,
         },
       ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta?.title || service.title,
+      description: meta?.description || service.description,
+      images: [`${BASE_URL}/og-image.png`],
+    },
+    other: {
+      // Inject FAQ as page-level structured data hint
+      ...(faqMap[resolvedParams.id] && {
+        "script:ld+json": JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqMap[resolvedParams.id].map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }),
+      }),
     },
   };
 }

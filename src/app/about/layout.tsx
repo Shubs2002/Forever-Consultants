@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.foreverconsultants.in";
 
 // Trophy cabinet photo as OG image — showcases all awards
 const OG_IMAGE = "https://res.cloudinary.com/dbnlmt97x/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/v1775035892/IMG_9507_yfcg7v.heic";

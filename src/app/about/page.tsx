@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Award, TrendingUp, Shield, ArrowRight, HeartPulse, PieChart } from 'lucide-react';
 import gsap from "gsap";
@@ -238,6 +238,9 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* FAQ SECTION — Accordion Split Layout, GEO Optimized */}
+        <FaqSection />
+
         {/* BOTTOM CALL TO ACTION */}
         <div ref={ctaRef} className="bg-[#0B0F19] rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[200%] bg-gradient-to-r from-blue-600/30 to-emerald-500/30 blur-[120px] pointer-events-none" />
@@ -262,3 +265,129 @@ export default function AboutPage() {
     </main>
   );
 }
+
+/* ──────────────────────────────────────────────────────────
+   FAQ Accordion — Split Layout (GEO Optimized)
+   ────────────────────────────────────────────────────────── */
+
+const FAQ_ITEMS = [
+  {
+    question: "What services does Forever Consultants offer?",
+    answer:
+      "We provide a comprehensive range of financial advisory services, including LIC Insurance & Life Protection (endowment, term life, retirement, child education plans with sovereign guarantee), Mutual Funds & Wealth Creation (SIP, SWP, portfolio management, ELSS with ₹50Cr+ AUM managed), and Mediclaim & Health Insurance through Care Health, Star Health, ICICI Lombard, and New India Assurance — all backed by 25+ years of industry expertise.",
+  },
+  {
+    question: "What is MDRT and why does it matter?",
+    answer:
+      "MDRT (Million Dollar Round Table) is the premier global association of the world's most successful financial professionals. Only the top 1% of advisors worldwide qualify. Nitin Gandhi of Forever Consultants has qualified 15 times, demonstrating exceptional expertise, ethical conduct, and a proven track record of delivering outstanding financial outcomes for clients.",
+  },
+  {
+    question: "How can I book a free consultation?",
+    answer:
+      "You can book a zero-obligation consultation through 4 convenient modes: Google Meet (virtual video call from anywhere), Personal Visit (our advisor visits your home or office), On Call (telephonic advisory at +91-9769660363), or On Premises (visit our office at Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank, Nalasopara West). All consultations are completely confidential.",
+  },
+  {
+    question: "Where is Forever Consultants located?",
+    answer:
+      "We are located at Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank, Nala Sopara, Sriprastha, Nalasopara West, Vasai-Virar, Maharashtra 401203, India. We serve clients across Mumbai, Vasai-Virar, and the greater Maharashtra region. Virtual consultations via Google Meet are available to clients anywhere in India and worldwide.",
+  },
+  {
+    question: "How much experience does your team have?",
+    answer:
+      "Our founding team brings over 45 combined years of financial expertise. Nitin Gandhi has 25+ years specializing in mutual funds, portfolio management, and LIC insurance. Sujata Gandhi has 20+ years of expertise in health insurance, mediclaim, and risk mitigation. Together, they have helped hundreds of families across Mumbai build long-term financial security.",
+  },
+];
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return (
+    <section className="mb-32" aria-label="Frequently Asked Questions">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        {/* Left — Heading & CTA */}
+        <div className="lg:sticky lg:top-32">
+          <span className="text-sm font-bold tracking-widest uppercase text-[#3B82F6] mb-5 block">
+            FAQs
+          </span>
+          <h2 className="text-4xl md:text-[2.75rem] font-extrabold text-zinc-900 tracking-tight leading-[1.15] mb-8">
+            Answers to common questions to help you understand our services
+          </h2>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-bold rounded-full text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-all hover:scale-[1.03] shadow-lg shadow-[#3B82F6]/25"
+          >
+            Email Us
+          </Link>
+        </div>
+
+        {/* Right — Accordion Items */}
+        <div className="flex flex-col" role="list">
+          {FAQ_ITEMS.map((item, idx) => {
+            const isOpen = openIndex === idx;
+            return (
+              <div
+                key={idx}
+                className={`border-b border-zinc-200 ${idx === 0 ? "border-t" : ""}`}
+                role="listitem"
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                  className="w-full flex items-center justify-between py-6 text-left group cursor-pointer"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${idx}`}
+                >
+                  <h3
+                    className={`text-base md:text-lg font-semibold pr-8 transition-colors duration-200 ${
+                      isOpen ? "text-zinc-900" : "text-zinc-700 group-hover:text-zinc-900"
+                    }`}
+                  >
+                    {item.question}
+                  </h3>
+                  <span
+                    className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      isOpen
+                        ? "bg-[#3B82F6] text-white rotate-45"
+                        : "bg-blue-50 text-[#3B82F6] group-hover:bg-blue-100"
+                    }`}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    >
+                      <path d="M7 1v12M1 7h12" />
+                    </svg>
+                  </span>
+                </button>
+
+                {/* Collapsible answer with smooth height transition */}
+                <div
+                  id={`faq-answer-${idx}`}
+                  className="grid transition-all duration-300 ease-in-out"
+                  style={{
+                    gridTemplateRows: isOpen ? "1fr" : "0fr",
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                >
+                  <div className="overflow-hidden">
+                    <p
+                      className="text-zinc-500 leading-relaxed text-[15px] pb-6 pr-12"
+                      data-speakable="true"
+                    >
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+

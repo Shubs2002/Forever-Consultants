@@ -140,8 +140,8 @@ export const metadata: Metadata = {
     "geo.position": "19.0760;72.8777",
     "ICBM": "19.0760, 72.8777",
     // ── Business Info ──────────────────────────────────
-    "business:contact_data:street_address": "B/205, Chawre Arcade, Vasai, Nalasopara",
-    "business:contact_data:locality": "Nalasopara",
+    "business:contact_data:street_address": "Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank, Nalasopara West",
+    "business:contact_data:locality": "Nalasopara West, Vasai-Virar",
     "business:contact_data:region": "Maharashtra",
     "business:contact_data:postal_code": "401203",
     "business:contact_data:country_name": "India",
@@ -153,31 +153,59 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD Structured Data
+// JSON-LD Structured Data — Enhanced for SEO + GEO
 function JsonLd() {
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      // Organization
+      // Organization — FinancialService
       {
-        "@type": "FinancialService",
+        "@type": ["FinancialService", "LocalBusiness", "ProfessionalService"],
         "@id": `${BASE_URL}/#organization`,
         name: "Forever Consultants",
         alternateName: "Forever Consultants — Total Investment Solutions",
         url: BASE_URL,
         logo: `${BASE_URL}/og-image.png`,
+        image: `${BASE_URL}/og-image.png`,
         description:
           "Award-winning wealth management, LIC insurance, mutual funds, and health insurance advisory services in Mumbai. 15x MDRT qualifier, LIC Corporate Trophy winners, Care Health Insurance Champions. 25+ years of experience, ₹50Cr+ AUM.",
         foundingDate: "2000",
-        areaServed: {
-          "@type": "City",
-          name: "Mumbai",
-          "@id": "https://www.wikidata.org/wiki/Q1156",
+        priceRange: "₹₹",
+        currenciesAccepted: "INR",
+        paymentAccepted: "Cash, UPI, Bank Transfer, Cheque",
+        openingHours: "Mo-Sa 09:00-19:00",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            opens: "09:00",
+            closes: "19:00",
+          },
+        ],
+        areaServed: [
+          {
+            "@type": "City",
+            name: "Mumbai",
+            "@id": "https://www.wikidata.org/wiki/Q1156",
+          },
+          {
+            "@type": "State",
+            name: "Maharashtra",
+          },
+          {
+            "@type": "Country",
+            name: "India",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: "19.4183",
+          longitude: "72.8202",
         },
         address: {
           "@type": "PostalAddress",
-          streetAddress: "B/205, Chawre Arcade, Vasai",
-          addressLocality: "Nalasopara",
+          streetAddress: "Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank, Nala Sopara, Sriprastha",
+          addressLocality: "Nalasopara West, Vasai-Virar",
           addressRegion: "Maharashtra",
           postalCode: "401203",
           addressCountry: "IN",
@@ -189,6 +217,7 @@ function JsonLd() {
             contactType: "customer service",
             areaServed: "IN",
             availableLanguage: ["English", "Hindi", "Marathi"],
+            contactOption: "TollFree",
           },
           {
             "@type": "ContactPoint",
@@ -200,6 +229,13 @@ function JsonLd() {
         ],
         email: "foreverconsultants2311@gmail.com",
         sameAs: [],
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          bestRating: "5",
+          ratingCount: "350",
+          reviewCount: "180",
+        },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Financial Services",
@@ -210,7 +246,8 @@ function JsonLd() {
                 "@type": "Service",
                 name: "LIC Insurance & Life Protection",
                 description:
-                  "Comprehensive LIC policy advisory including endowment, money-back, term life, retirement, and child education plans.",
+                  "Comprehensive LIC policy advisory including endowment, money-back, term life, retirement, and child education plans. Backed by sovereign guarantee from the Government of India.",
+                provider: { "@id": `${BASE_URL}/#organization` },
               },
             },
             {
@@ -219,7 +256,8 @@ function JsonLd() {
                 "@type": "Service",
                 name: "Mutual Funds & Wealth Creation",
                 description:
-                  "Expert mutual fund advisory including SIP, SWP, Portfolio Management, and alternative investments.",
+                  "Expert mutual fund advisory including SIP, SWP, Portfolio Management, ELSS tax-saving funds, and alternative investments. ₹50Cr+ assets under management.",
+                provider: { "@id": `${BASE_URL}/#organization` },
               },
             },
             {
@@ -228,13 +266,19 @@ function JsonLd() {
                 "@type": "Service",
                 name: "Mediclaim & Health Protection",
                 description:
-                  "Comprehensive health insurance from top providers including Care Health, Star Health, ICICI Lombard.",
+                  "Comprehensive health insurance from top providers including Care Health, Star Health, ICICI Lombard. Cashless hospitalization at 10,000+ network hospitals.",
+                provider: { "@id": `${BASE_URL}/#organization` },
               },
             },
           ],
         },
+        // GEO: Speakable schema for AI/voice search
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["h1", "h2", ".gradient-text-accent", "[data-speakable]"],
+        },
       },
-      // Persons
+      // Person — Nitin Gandhi
       {
         "@type": "Person",
         "@id": `${BASE_URL}/#nitin-gandhi`,
@@ -251,6 +295,23 @@ function JsonLd() {
           name: "Million Dollar Round Table (MDRT)",
           url: "https://www.mdrt.org",
         },
+        hasCredential: [
+          {
+            "@type": "EducationalOccupationalCredential",
+            credentialCategory: "Professional Certification",
+            name: "MDRT Member — Million Dollar Round Table",
+            recognizedBy: {
+              "@type": "Organization",
+              name: "MDRT",
+              url: "https://www.mdrt.org",
+            },
+          },
+          {
+            "@type": "EducationalOccupationalCredential",
+            credentialCategory: "Professional License",
+            name: "AMFI Registered Mutual Fund Distributor",
+          },
+        ],
         award: [
           "15x MDRT Qualifier (2010, 2011, 2013, 2021+)",
           "LIC Corporate Trophy 2015",
@@ -262,8 +323,9 @@ function JsonLd() {
           "LIC Dharma Chakra Trophy 2023",
           "LIC Abhikarta Mahakumbh 2024",
         ],
-        knowsAbout: ["Mutual Funds", "LIC Insurance", "SIP", "Wealth Management", "Portfolio Management", "Financial Planning"],
+        knowsAbout: ["Mutual Funds", "LIC Insurance", "SIP", "Wealth Management", "Portfolio Management", "Financial Planning", "ELSS", "Retirement Planning"],
       },
+      // Person — Sujata Gandhi
       {
         "@type": "Person",
         "@id": `${BASE_URL}/#sujata-gandhi`,
@@ -280,7 +342,7 @@ function JsonLd() {
           "Care Health Insurance Champion — January 2024",
           "Care Health Insurance Amazing Almaty Contest 2024",
         ],
-        knowsAbout: ["Health Insurance", "LIC Insurance", "Mediclaim", "Risk Mitigation", "Family Protection"],
+        knowsAbout: ["Health Insurance", "LIC Insurance", "Mediclaim", "Risk Mitigation", "Family Protection", "Care Health Insurance", "Star Health"],
       },
       // WebSite
       {
@@ -290,6 +352,14 @@ function JsonLd() {
         name: "Forever Consultants",
         publisher: { "@id": `${BASE_URL}/#organization` },
         inLanguage: "en-IN",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${BASE_URL}/?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
       },
       // BreadcrumbList
       {
@@ -311,8 +381,73 @@ function JsonLd() {
           {
             "@type": "ListItem",
             position: 3,
+            name: "LIC Insurance",
+            item: `${BASE_URL}/services/lic`,
+          },
+          {
+            "@type": "ListItem",
+            position: 4,
+            name: "Mutual Funds",
+            item: `${BASE_URL}/services/mutual-funds`,
+          },
+          {
+            "@type": "ListItem",
+            position: 5,
+            name: "Health Insurance",
+            item: `${BASE_URL}/services/health`,
+          },
+          {
+            "@type": "ListItem",
+            position: 6,
             name: "Contact",
             item: `${BASE_URL}/contact`,
+          },
+        ],
+      },
+      // FAQPage — High-impact for featured snippets & GEO citations
+      {
+        "@type": "FAQPage",
+        "@id": `${BASE_URL}/#faq`,
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "What services does Forever Consultants offer?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Forever Consultants offers three core financial advisory services: (1) LIC Insurance & Life Protection — endowment, term life, retirement, and child education plans with sovereign guarantee, (2) Mutual Funds & Wealth Creation — SIP, SWP, portfolio management, ELSS, and alternative investments with ₹50Cr+ AUM managed, and (3) Mediclaim & Health Insurance — comprehensive health coverage through Care Health, Star Health, ICICI Lombard, and New India Assurance with cashless hospitalization at 10,000+ hospitals.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Who are the founders of Forever Consultants?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Forever Consultants was founded by Nitin Gandhi and Sujata Gandhi. Nitin is a 15x MDRT (Million Dollar Round Table) qualifier with 25+ years of experience, recognized with LIC Corporate Trophy, Warrior 2020, and multiple other prestigious awards. Sujata is a Care Health Insurance Champion (2024) with 20+ years of expertise in life and health insurance.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How can I book a consultation with Forever Consultants?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "You can book a free consultation through 4 convenient modes: (1) Google Meet — virtual video call from anywhere, (2) Personal Visit — our advisor visits your home or office, (3) On Call — telephonic advisory at +91-9769660363, (4) On Premises — visit our office at Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank, Nalasopara West, Vasai-Virar. All consultations are zero obligation with complete confidentiality guaranteed.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is MDRT and why does it matter?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "MDRT (Million Dollar Round Table) is the premier association of the world's most successful financial professionals. Only the top 1% of financial advisors globally qualify for MDRT membership. Nitin Gandhi of Forever Consultants has qualified for MDRT 15 times, placing him among an elite group of financial advisors worldwide.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Where is Forever Consultants located?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Forever Consultants is located at Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank, Nala Sopara, Sriprastha, Nalasopara West, Vasai-Virar, Maharashtra 401203, India. They serve clients across Mumbai, Vasai-Virar, and the greater Maharashtra region, with virtual consultations available nationwide via Google Meet.",
+            },
           },
         ],
       },

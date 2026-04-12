@@ -2,56 +2,45 @@ import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.foreverconsultants.in";
-  const currentDate = new Date().toISOString();
+  // Use a stable date to prevent unnecessary re-crawl signals on every build
+  const lastModified = "2026-04-12";
 
   return [
     {
       url: baseUrl,
-      lastModified: currentDate,
+      lastModified,
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: currentDate,
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: currentDate,
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/lic`,
-      lastModified: currentDate,
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/services/mutual-funds`,
-      lastModified: currentDate,
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/services/health`,
-      lastModified: currentDate,
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/#book`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact#email`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
     },
   ];
 }

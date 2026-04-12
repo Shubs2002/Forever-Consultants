@@ -73,7 +73,7 @@ FN:Sujata Gandhi
 TITLE:Senior Insurance Advisor, Care Health Champion
 TEL;TYPE=CELL:+918087907776
 EMAIL:sujatagandhi72@gmail.com
-ADR;TYPE=WORK:;;B/205, Chawre Arcade, Vasai;Nalasopara;;401203;India
+ADR;TYPE=WORK:;;Shop No 3, Rajhans Complex, 2nd Road, near SVC Bank;Nalasopara West, Vasai-Virar;;401203;India
 URL:${siteUrl}
 NOTE:Senior Insurance Advisor specializing in LIC Insurance, Mutual Funds, and Health Insurance
 END:VCARD`;
@@ -156,7 +156,7 @@ END:VCARD`;
 
           {/* Address */}
           <a
-            href="https://www.google.com/maps?q=19.42082977294922,72.81449127197266&z=17&hl=en"
+            href="https://maps.app.goo.gl/78WparuwzdgcQCDYA"
             target="_blank"
             rel="noopener noreferrer"
             className="vcard-info flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group backdrop-blur-sm"
@@ -167,8 +167,8 @@ END:VCARD`;
             <div className="flex-1">
               <p className="text-xs text-zinc-400 mb-1">Address</p>
               <p className="text-white font-medium text-sm leading-relaxed">
-                B/205, Chawre Arcade, Vasai<br />
-                Nalasopara - 401203
+                Shop No 3, Rajhans Complex<br />
+                Nalasopara West - 401203
               </p>
             </div>
           </a>

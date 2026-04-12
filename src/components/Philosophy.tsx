@@ -99,9 +99,12 @@ export default function Philosophy() {
           <h2 className="text-4xl md:text-5xl font-extrabold text-zinc-900 mb-6 tracking-tight">
             How We Explain Wealth
           </h2>
-          <p className="text-lg text-zinc-600 leading-relaxed">
+          <p className="text-lg text-zinc-600 leading-relaxed" data-speakable="true">
             We don't use intimidating financial jargon. We use simple, highly effective frameworks that clearly map exactly where you are and where you are going.
           </p>
+          <a href="/about" className="inline-flex items-center text-sm font-semibold text-[#3B82F6] hover:text-[#2563EB] transition-colors mt-2">
+            Learn more about our approach →
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
