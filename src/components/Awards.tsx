@@ -53,7 +53,7 @@ export default function Awards() {
   const galleryImages = [
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035892/IMG_9507_yfcg7v.heic",
-      caption: "Trophy Cabinet — Years of Excellence"
+      caption: "Forever Consultants Trophy Cabinet — Years of Award-Winning Excellence in Financial Services"
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035893/IMG_9508_ax05lt.heic",
@@ -65,11 +65,11 @@ export default function Awards() {
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035892/IMG_9506_jb35bo.heic",
-      caption: "LIC MDRT 2021 — 8th Time Qualifier, Nitin Gandhi"
+      caption: "Nitin Gandhi LIC MDRT 2021 — 8th Time Qualifier at Forever Consultants"
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035891/IMG_9505_qchfnr.heic",
-      caption: "LIC Warrior 2020 — Nitin A. Gandhi, Mumbai Div-IV"
+      caption: "Nitin Gandhi LIC Warrior 2020 Award — Mumbai Division IV, Forever Consultants"
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035889/IMG_9504_zkddhh.heic",
@@ -81,7 +81,7 @@ export default function Awards() {
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035890/IMG_9502_dbsaob.heic",
-      caption: "Award Ceremony — Nitin Gandhi Felicitation"
+      caption: "Nitin Gandhi Award Ceremony — Felicitation at Forever Consultants"
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035889/IMG_9503_s9wgqq.heic",
@@ -109,7 +109,7 @@ export default function Awards() {
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035883/IMG_9479_ncy0q6.heic",
-      caption: "MDRT 2013 — Nitin Gandhi with Achievement Award"
+      caption: "Nitin Gandhi MDRT 2013 — Achievement Award at Forever Consultants"
     },
     {
       url: "https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775035881/IMG_9475_yncizg.heic",
@@ -363,7 +363,8 @@ export default function Awards() {
                   >
                     <img
                       src={getOptimizedUrl(image.url, 800)}
-                      alt={image.caption}
+                      alt={`${image.caption} — Forever Consultants Awards Gallery`}
+                      title={image.caption}
                       className="w-full h-full object-contain"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 md:p-8">
@@ -416,7 +417,7 @@ export default function Awards() {
                 >
                   <img
                     src={getOptimizedUrl(image.url, 150, 50)}
-                    alt={`Thumbnail ${idx + 1}`}
+                    alt={`${image.caption} — Thumbnail`}
                     className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"

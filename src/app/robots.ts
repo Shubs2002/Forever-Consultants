@@ -7,8 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/about", "/contact", "/services/"],
-        disallow: ["/api/", "/_next/", "/vcard/"],
+        allow: ["/", "/about", "/contact", "/services/", "/vcard/"],
+        disallow: ["/api/", "/_next/"],
       },
       // AI crawlers — allow full access for GEO
       {

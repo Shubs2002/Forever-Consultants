@@ -110,7 +110,10 @@ END:VCARD`;
           <div className="absolute inset-0 bg-transparent">
             <img 
               src="https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775031318/Untitled_design_24_ze2wqv.png" 
-              alt="Nitin Gandhi"
+              alt="Nitin Gandhi — 15x MDRT Qualifier and Senior Insurance Advisor at Forever Consultants Mumbai"
+              title="Nitin Gandhi — Senior Insurance Advisor, MDRT Qualifier"
+              width={800}
+              height={800}
               className="w-full h-full object-contain"
               style={{ objectPosition: 'center' }}
             />

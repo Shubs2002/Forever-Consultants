@@ -294,7 +294,7 @@ export default function ContactPage() {
                   <span className="text-sm">
                     The limit resets at midnight. You can also{" "}
                     <a
-                      href="mailto:foreverconsultants2311@gmail.com"
+                      href="mailto:contact@foreverconsultants.in"
                       className="underline hover:text-amber-900 font-semibold"
                     >
                       email us directly

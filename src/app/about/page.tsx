@@ -132,7 +132,10 @@ export default function AboutPage() {
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-[6px] border-white aspect-[4/5] bg-zinc-100">
               <img 
                 src="https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775031318/Untitled_design_24_ze2wqv.png" 
-                alt="Nitin Gandhi - Senior Financial Strategist" 
+                alt="Nitin Gandhi — 15x MDRT Qualifier, Senior Financial Strategist and LIC Insurance Advisor at Forever Consultants Mumbai" 
+                title="Nitin Gandhi — Senior Financial Strategist & 15x MDRT Qualifier at Forever Consultants"
+                width={800}
+                height={1000}
                 className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 origin-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-80" />
@@ -189,7 +192,10 @@ export default function AboutPage() {
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-[6px] border-white aspect-[4/5] bg-zinc-100">
               <img 
                 src="https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775031318/Untitled_design_23_w0hgi5.png" 
-                alt="Sujata Gandhi - Principal Life & Health Advisor" 
+                alt="Sujata Gandhi — Care Health Insurance Champion 2024, Principal Life and Health Advisor at Forever Consultants Mumbai" 
+                title="Sujata Gandhi — Principal Life & Health Advisor & Care Health Champion at Forever Consultants"
+                width={800}
+                height={1000}
                 className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 origin-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-80" />

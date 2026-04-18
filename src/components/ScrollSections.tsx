@@ -96,7 +96,8 @@ export default function ScrollSections() {
       <div className="absolute top-0 left-0 w-full h-[100svh] pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         <img
           src="https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1776022942/remove_Build_and_202604130111_w9xk1g.jpg"
-          alt=""
+          alt="Forever Consultants — Total Investment and Insurance Solutions background, featuring LIC Insurance, Mutual Funds, SIP and Health Insurance services in Mumbai"
+          title="Forever Consultants — Financial Services Background"
           width={1920}
           height={1080}
           className="w-full h-full object-cover opacity-[0.17]"

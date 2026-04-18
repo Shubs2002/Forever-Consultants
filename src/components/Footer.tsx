@@ -118,8 +118,8 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4 text-sm">
               <li>
-                <a href="mailto:foreverconsultants2311@gmail.com" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
-                  foreverconsultants2311@gmail.com
+                <a href="mailto:contact@foreverconsultants.in" className="text-zinc-400 hover:text-[#3B82F6] transition-colors">
+                  contact@foreverconsultants.in
                 </a>
               </li>
               <li>

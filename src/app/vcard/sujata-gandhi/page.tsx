@@ -110,7 +110,10 @@ END:VCARD`;
           <div className="absolute inset-0 bg-transparent">
             <img 
               src="https://res.cloudinary.com/dbnlmt97x/image/upload/q_auto/f_auto/v1775031318/Untitled_design_23_w0hgi5.png" 
-              alt="Sujata Gandhi"
+              alt="Sujata Gandhi — Care Health Insurance Champion 2024 and Senior Insurance Advisor at Forever Consultants Mumbai"
+              title="Sujata Gandhi — Senior Insurance Advisor, Care Health Champion"
+              width={800}
+              height={800}
               className="w-full h-full object-contain"
               style={{ objectPosition: 'center' }}
             />

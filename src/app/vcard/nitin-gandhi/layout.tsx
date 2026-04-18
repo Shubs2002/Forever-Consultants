@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://forever-consultants.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.foreverconsultants.in";
 
 // Full uncropped photo padded to landscape for WhatsApp/OG
 const OG_IMAGE = "https://res.cloudinary.com/dbnlmt97x/image/upload/c_pad,b_rgb:0a0a0c,w_1200,h_630,q_auto,f_auto/v1775031318/Untitled_design_24_ze2wqv.png";
